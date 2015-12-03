@@ -1,0 +1,12 @@
+{
+  "manifest_version": 2,
+
+  "name": "Chrome Helper",
+  "description": "My own custom extension.",
+  "version": "1.0",
+
+  "permissions": ["contextMenus"],
+  "background": {
+    "scripts": ["script.js"]
+  }
+}
