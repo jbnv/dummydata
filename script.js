@@ -1,18 +1,11 @@
-// A generic onclick callback function.
-function genericOnClick(info, tab) {
-  alert(
-    "item " + info.menuItemId + " was clicked\n" +
-    "info: " + JSON.stringify(info) + "\n" +
-    "tab: " + JSON.stringify(tab));
+function setActiveElementValue(value) {
+  var script = 'var form = document.activeElement;form.value = (form.value + "' + value + '");';
+    chrome.tabs.executeScript({code : script});
 }
 
 function insertNumber(info, tab){
   var number = Math.floor(Math.pow(Math.random()*10,10));
-  alert(
-    number+"\n" +
-    "info: " + JSON.stringify(info) + "\n" +
-    "tab: " + JSON.stringify(tab
-  ));
+  setActiveElementValue(number);
 }
 
 function insertAddress(info, tab){
@@ -20,11 +13,7 @@ function insertAddress(info, tab){
   var names = ["First","Second","Third","Fourth","Fifth"];
   var types = ["Street","Road","Drive","Lane"];
   var address = "" + number + " " + names[Math.floor(names.length*Math.random())] + " " + types[Math.floor(types.length*Math.random())]
-  alert(
-    address+"\n" +
-    "info: " + JSON.stringify(info) + "\n" +
-    "tab: " + JSON.stringify(tab
-  ));
+  setActiveElementValue(address);
 }
 
 var a = chrome.contextMenus.create({"title": "Number", "contexts":["editable"], "onclick": insertNumber});

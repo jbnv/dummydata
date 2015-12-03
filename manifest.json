@@ -1,11 +1,11 @@
 {
   "manifest_version": 2,
 
-  "name": "Chrome Helper",
-  "description": "My own custom extension.",
+  "name": "Dummy Data",
+  "description": "Insert dummy data into form elements with a few clicks.",
   "version": "1.0",
 
-  "permissions": ["contextMenus"],
+  "permissions": ["contextMenus","activeTab"],
   "background": {
     "scripts": ["script.js"]
   }
