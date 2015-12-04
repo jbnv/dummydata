@@ -36,6 +36,11 @@ function toTitleCase(str)
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
+function toInitialCase(str)
+{
+    return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+}
+
 function number(){
   return Math.floor(Math.pow(10,Math.random()*10));
 }
@@ -48,14 +53,15 @@ function streetAddress(){
 }
 
 function ipsum() {
-  var article1 = "The";
+  var articles = ["the","some","any","many","few"];
+  var article1 = articles[Math.floor(articles.length*Math.random())];
   var adjective1 = nextDatum("EnglishAdjectives");
-  var noun1 = nextDatum("EnglishPlants");
+  var noun1 = nextDatum("EnglishPlants") + "s";
   var verb = "covered";
-  var article2 = "the";
+  var article2 = articles[Math.floor(articles.length*Math.random())];
   var adjective2 = nextDatum("EnglishAdjectives");
-  var noun2 = nextDatum("EnglishPlants");
-  return article1+" "+adjective1+" "+noun1+" "+verb+" "+article2+" "+adjective2+" "+noun2+"."
+  var noun2 = nextDatum("EnglishPlants") + "s";
+  return toInitialCase(article1+" "+adjective1+" "+noun1+" "+verb+" "+article2+" "+adjective2+" "+noun2+".");
 }
 
 function insert(generatorFn,options) {
