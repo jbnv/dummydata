@@ -2,10 +2,11 @@
   "manifest_version": 2,
 
   "name": "Dummy Data",
+  "author": "Jay Bienvenu",
   "description": "Insert dummy data into form elements with a few clicks.",
-  "version": "1.0",
+  "version": "2.0",
 
-  "permissions": ["contextMenus","activeTab"],
+  "permissions": ["activeTab","contextMenus","downloads"],
   "background": {
     "scripts": ["script.js"]
   }

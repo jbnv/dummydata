@@ -1,0 +1,7 @@
+CHANGELOG
+
+1.0 (2015-12-02)
+- Implements random number and random address.
+
+2.0 (2015-12-03)
+- Implements downloading data from my WordLists repository on GitHub.
