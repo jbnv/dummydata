@@ -1,10 +1,11 @@
-CHANGELOG
+2.2 (2015-12-03)
+- Implement first version of ipsum.
 
-1.0 (2015-12-02)
-- Implements random number and random address.
+2.1 (2015-12-03)
+- Refactor code for commonality.
 
 2.0 (2015-12-03)
 - Implements downloading data from my WordLists repository on GitHub.
 
-2.1 (2015-12-04)
-- Refactor code for commonality.
+1.0 (2015-12-02)
+- Implements random number and random address.

@@ -1,4 +1,4 @@
-var fileNames = ['EnglishOrdinalNumbers'];
+var fileNames = ['EnglishOrdinalNumbers','EnglishPlants','EnglishAdjectives'];
 var data = {};
 
 var ordinal = 0;
@@ -47,6 +47,17 @@ function streetAddress(){
   return toTitleCase(address);
 }
 
+function ipsum() {
+  var article1 = "The";
+  var adjective1 = nextDatum("EnglishAdjectives");
+  var noun1 = nextDatum("EnglishPlants");
+  var verb = "covered";
+  var article2 = "the";
+  var adjective2 = nextDatum("EnglishAdjectives");
+  var noun2 = nextDatum("EnglishPlants");
+  return article1+" "+adjective1+" "+noun1+" "+verb+" "+article2+" "+adjective2+" "+noun2+"."
+}
+
 function insert(generatorFn,options) {
   return function(info, tab) {
     var value = generatorFn(options);
@@ -57,3 +68,4 @@ function insert(generatorFn,options) {
 
 var a = chrome.contextMenus.create({"title": "Number", "contexts":["editable"], "onclick": insert(number)});
 var b = chrome.contextMenus.create({"title": "Street Address", "contexts":["editable"], "onclick": insert(streetAddress)});
+var c = chrome.contextMenus.create({"title": "Ipsum", "contexts":["editable"], "onclick": insert(ipsum)});
