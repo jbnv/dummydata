@@ -135,3 +135,16 @@ menuItems.forEach(function(item) {
   var options = item.length >= 2 ? item[2] : null;
   chrome.contextMenus.create({"title": title, "contexts":["editable"], "onclick": insert(fn,options)});
 })
+
+chrome.contextMenus.create({"type":"separator","contexts":["editable"]});
+
+var _language = 'English';
+var _languages = ['English','German','Japanese','Spanish'];
+
+_languages.forEach(function(l) {
+  chrome.contextMenus.create({
+    "title": l, "contexts":["editable"],
+    "type":"radio",
+    "checked":_language == l,
+    "onclick": function(info, tab) { _language = l; }});
+});
