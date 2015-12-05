@@ -1,10 +1,13 @@
-var fileNames = ['EnglishOrdinalNumbers','EnglishPlants','EnglishAdjectives'];
+var fileNames = [
+  'EnglishOrdinalNumbers','EnglishPlants','EnglishAdjectives',
+  'JapaneseMaleNames','JapaneseFemaleNames','JapaneseSurnamePrefixes','JapaneseSurnameSuffixes'
+];
 var data = {};
 
-var ordinal = 0;
+var _ordinal = 0;
 
 function nextDatum(listName) {
-  return data[listName][ordinal++ % data[listName].length];
+  return data[listName][_ordinal++ % data[listName].length];
 }
 
 function downloadTextFileToArray(fileName) {
@@ -70,14 +73,6 @@ function ipsum(options) {
   return sentences.join(" ");
 }
 
-function insert(generatorFn,options) {
-  return function(info, tab) {
-    var value = generatorFn(options);
-    var script = 'var form = document.activeElement;form.value = (form.value + "' + value + '");';
-    chrome.tabs.executeScript({code : script});
-  }
-}
-
 function englishName() {
   return "John Doe";
 }
@@ -90,8 +85,20 @@ function germanName() {
   return "Jan Ein";
 }
 
+var _japaneseGenderOrdinal = 0;
+
 function japaneseName() {
-  return "Ma Wa";
+  var name = _japaneseGenderOrdinal++ % 2 == 0 ? nextDatum('JapaneseMaleNames') : nextDatum('JapaneseFemaleNames');
+  var surname = nextDatum('JapaneseSurnamePrefixes') + nextDatum('JapaneseSurnameSuffixes');
+  return surname+" "+name;
+}
+
+function insert(generatorFn,options) {
+  return function(info, tab) {
+    var value = generatorFn(options);
+    var script = 'var form = document.activeElement;form.value = (form.value + "' + value + '");';
+    chrome.tabs.executeScript({code : script});
+  }
 }
 
 var menuItems = [
