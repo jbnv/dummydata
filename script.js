@@ -78,11 +78,44 @@ function insert(generatorFn,options) {
   }
 }
 
-var a = chrome.contextMenus.create({"title": "Number", "contexts":["editable"], "onclick": insert(number)});
-var b = chrome.contextMenus.create({"title": "Street Address", "contexts":["editable"], "onclick": insert(streetAddress)});
+function englishName() {
+  return "John Doe";
+}
 
-var div1 = chrome.contextMenus.create({"type":"separator","contexts":["editable"]});
+function spanishName() {
+  return "Juan Uno";
+}
 
-var ipsum1 = chrome.contextMenus.create({"title": "Ipsum 1 sentence", "contexts":["editable"], "onclick": insert(ipsum)});
-var ipsum3 = chrome.contextMenus.create({"title": "Ipsum 3 sentences", "contexts":["editable"], "onclick": insert(ipsum,{count:3})});
-var ipsum5 = chrome.contextMenus.create({"title": "Ipsum 5 sentences", "contexts":["editable"], "onclick": insert(ipsum,{count:5})});
+function germanName() {
+  return "Jan Ein";
+}
+
+function japaneseName() {
+  return "Ma Wa";
+}
+
+var menuItems = [
+  ["English Name", englishName],
+  ["German Name", germanName],
+  ["Japanese Name", japaneseName],
+  ["Spanish Name", spanishName],
+  null,
+  ["Number",number],
+  ["Street Address",streetAddress],
+  null,
+  ["Ipsum 1 sentence",ipsum],
+  ["Ipsum 3 sentences",ipsum,{count:3}],
+  ["Ipsum 5 sentences",ipsum,{count:5}]
+];
+
+menuItems.forEach(function(item) {
+  if (item == null) {
+    chrome.contextMenus.create({"type":"separator","contexts":["editable"]});
+    return;
+  }
+  // assumes item == [title, function, options]
+  var title = item[0];
+  var fn = item[1];
+  var options = item.length >= 2 ? item[2] : null;
+  chrome.contextMenus.create({"title": title, "contexts":["editable"], "onclick": insert(fn,options)});
+})
