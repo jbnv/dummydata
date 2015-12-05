@@ -1,7 +1,8 @@
 var fileNames = [
   'EnglishOrdinalNumbers','EnglishPlants','EnglishAdjectives',
   'GermanMaleNames','GermanFemaleNames','GermanSurnamePrefixes','GermanSurnameSuffixes',
-  'JapaneseMaleNames','JapaneseFemaleNames','JapaneseSurnamePrefixes','JapaneseSurnameSuffixes'
+  'JapaneseMaleNames','JapaneseFemaleNames','JapaneseSurnamePrefixes','JapaneseSurnameSuffixes',
+  'SpanishMaleNames','SpanishFemaleNames','SpanishSurnames'
 ];
 var data = {};
 
@@ -78,8 +79,11 @@ function englishName() {
   return "John Doe";
 }
 
+var _spanishGenderOrdinal = 0;
+
 function spanishName() {
-  return "Juan Uno";
+  var name = _spanishGenderOrdinal++ % 2 == 0 ? nextDatum('SpanishMaleNames') : nextDatum('SpanishFemaleNames');
+  return name+" "+nextDatum('SpanishSurnames');
 }
 
 var _germanGenderOrdinal = 0;
