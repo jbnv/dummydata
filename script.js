@@ -52,16 +52,22 @@ function streetAddress(){
   return toTitleCase(address);
 }
 
-function ipsum() {
+function ipsum(options) {
   var articles = ["the","some","any","many","few"];
-  var article1 = articles[Math.floor(articles.length*Math.random())];
-  var adjective1 = nextDatum("EnglishAdjectives");
-  var noun1 = nextDatum("EnglishPlants") + "s";
-  var verb = "covered";
-  var article2 = articles[Math.floor(articles.length*Math.random())];
-  var adjective2 = nextDatum("EnglishAdjectives");
-  var noun2 = nextDatum("EnglishPlants") + "s";
-  return toInitialCase(article1+" "+adjective1+" "+noun1+" "+verb+" "+article2+" "+adjective2+" "+noun2+".");
+  var sentenceCount = options == null ? 1 : (options.count || 1);
+  var sentences = [];
+  for (var i = 0; i < sentenceCount; i++) {
+    var article1 = articles[Math.floor(articles.length*Math.random())];
+    var adjective1 = nextDatum("EnglishAdjectives");
+    var noun1 = nextDatum("EnglishPlants") + "s";
+    var verb = "covered";
+    var article2 = articles[Math.floor(articles.length*Math.random())];
+    var adjective2 = nextDatum("EnglishAdjectives");
+    var noun2 = nextDatum("EnglishPlants") + "s";
+    var sentence = toInitialCase(article1+" "+adjective1+" "+noun1+" "+verb+" "+article2+" "+adjective2+" "+noun2+".")
+    sentences.push(sentence);
+  }
+  return sentences.join(" ");
 }
 
 function insert(generatorFn,options) {
@@ -74,4 +80,9 @@ function insert(generatorFn,options) {
 
 var a = chrome.contextMenus.create({"title": "Number", "contexts":["editable"], "onclick": insert(number)});
 var b = chrome.contextMenus.create({"title": "Street Address", "contexts":["editable"], "onclick": insert(streetAddress)});
-var c = chrome.contextMenus.create({"title": "Ipsum", "contexts":["editable"], "onclick": insert(ipsum)});
+
+var div1 = chrome.contextMenus.create({"type":"separator","contexts":["editable"]});
+
+var ipsum1 = chrome.contextMenus.create({"title": "Ipsum 1 sentence", "contexts":["editable"], "onclick": insert(ipsum)});
+var ipsum3 = chrome.contextMenus.create({"title": "Ipsum 3 sentences", "contexts":["editable"], "onclick": insert(ipsum,{count:3})});
+var ipsum5 = chrome.contextMenus.create({"title": "Ipsum 5 sentences", "contexts":["editable"], "onclick": insert(ipsum,{count:5})});
