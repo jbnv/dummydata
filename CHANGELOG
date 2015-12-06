@@ -1,7 +1,7 @@
 3.4 (2015-12-06)
 - Add English names.
 - Move street address and ipsum into English module.
-- Improve English ipsum.
+- Improve English ipsum and street address.
 
 3.0 (2015-12-05)
 - Revamp model to make languages pluggable and chooseable.

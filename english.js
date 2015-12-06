@@ -69,9 +69,17 @@ var English = function() {
   };
 
   this.streetAddress = function() {
-    var number = Math.floor(Math.pow(Math.random()*4,10));
+    var nameFns = [
+      function() { return nextDatum('EnglishAnimals'); },
+      function() { return nextDatum('EnglishOrdinalNumbers'); },
+      function() { return nextDatum('EnglishPlants'); },
+      function() { return _this.surname(); },
+    ];
+    var number = Math.floor(Math.pow(100000,Math.random()));
     var types = ["Street","Road","Drive","Lane"];
-    var address = "" + number + " " + nextDatum('EnglishOrdinalNumbers') + " " + types[Math.floor(types.length*Math.random())]
+    var streetName = nameFns[_ordinal % nameFns.length]();
+    var streetType = types[_ordinal % types.length];
+    var address = "" + number + " " + streetName + " " + streetType;
     return toTitleCase(address);
   }
 
