@@ -7,7 +7,7 @@ function downloadTextFile(listName) {
   client.open('GET', 'https://raw.githubusercontent.com/jbnv/WordLists/master/'+listName+'.txt');
   client.onreadystatechange = function() {
     var text = client.responseText;
-    _data[listName] = text.split("\n");
+    _data[listName] = text.split("\n").filter(function(s) {return s.length > 0;});
     shuffle(_data[listName])
   }
   client.send();
