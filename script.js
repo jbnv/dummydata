@@ -61,6 +61,14 @@ function laterDate() {
 
 function languageFn(fnName) {
   return function() {
+    if (_languages[_language] == null) {
+      alert("Language '"+_language+"' not defined.");
+      return "";
+    }
+    if (_languages[_language][fnName] == null) {
+      alert("Function '"+fnName+"' not defined for language '"+_language+"'.");
+      return "";
+    }
     return _languages[_language][fnName]();
   }
 }
@@ -86,7 +94,7 @@ var menuItems = [
   ["Female Full Name", languageFn('femaleFullName')],
   null,
   ["Number",number],
-  ["Street Address",streetAddress],
+  ["Street Address",languageFn('streetAddress')],
   null,
   ["Ipsum 1 sentence",ipsum],
   ["Ipsum 3 sentences",ipsum,{count:3}],

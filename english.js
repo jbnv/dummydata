@@ -43,4 +43,11 @@ var English = function() {
     return this.femaleName()+" "+this.surname();
   };
 
+  this.streetAddress = function() {
+    var number = Math.floor(Math.pow(Math.random()*4,10));
+    var types = ["Street","Road","Drive","Lane"];
+    var address = "" + number + " " + nextDatum('EnglishOrdinalNumbers') + " " + types[Math.floor(types.length*Math.random())]
+    return toTitleCase(address);
+  }
+
 }
