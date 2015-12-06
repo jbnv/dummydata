@@ -13,7 +13,11 @@ var Spanish = function() {
   };
 
   this.surname = function() {
-    return nextDatum('SpanishSurnames');
+    if (Math.random() < 0.9) {
+      return nextDatum('SpanishSurnames');
+    } else {
+      return nextDatum('SpanishSurnames')+" y "+nextDatum('SpanishSurnames');
+    };
   };
 
   this.maleFullName = function() {
