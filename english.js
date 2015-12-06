@@ -10,19 +10,9 @@ var English = function() {
   downloadTextFile('EnglishNameSuffixes2'); // suffixes that begin with a vowel
   downloadTextFile('EnglishOrdinalNumbers');
   downloadTextFile('EnglishPlants');
+  downloadTextFile('EnglishSurnames');
 
   this.maleName = function() {
-    //return nextDatum('EnglishMaleNames');
-    return "John";
-  };
-
-  this.femaleName = function() {
-    //return nextDatum('EnglishFemaleNames');
-    return "Jane";
-  };
-
-  this.surname = function() {
-    //return nextDatum('EnglishSurnames');
     var selector = Math.random();
     if (selector < 0.4) {
       return nextDatum('EnglishNamePrefixes1')+nextDatum('EnglishNameSuffixes1');
@@ -31,7 +21,18 @@ var English = function() {
     } else {
       return nextDatum('EnglishNamePrefixes2')+nextDatum('EnglishNameSuffixes1');
     }
+  };
 
+  this.femaleName = function() {
+    var selector = Math.random();
+    if (selector < 0.8) return nextDatum('EnglishFemaleNames');
+    return this.maleName()+nextDatum('EnglishFeminineSuffixes');
+  };
+
+  this.surname = function() {
+    var selector = Math.random();
+    if (selector < 0.4) return nextDatum('EnglishSurnames');
+    return this.maleName();
   };
 
   this.maleFullName = function() {

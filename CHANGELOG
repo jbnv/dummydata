@@ -1,3 +1,6 @@
+3.1 (2015-12-06)
+- Add English names.
+
 3.0 (2015-12-05)
 - Revamp model to make languages pluggable and chooseable.
 - Add date options.
