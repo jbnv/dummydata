@@ -1,11 +1,3 @@
-var fileNames = [
-  'EnglishOrdinalNumbers','EnglishPlants','EnglishAdjectives',
-  'GermanMaleNames','GermanFemaleNames','GermanSurnamePrefixes','GermanSurnameSuffixes',
-  'JapaneseMaleNames','JapaneseFemaleNames','JapaneseSurnamePrefixes','JapaneseSurnameSuffixes',
-  'SpanishMaleNames','SpanishFemaleNames','SpanishSurnames'
-];
-var data = {};
-
 var _language = 'English';
 var _languages = {
   'English': new English(),
@@ -13,36 +5,6 @@ var _languages = {
   'Japanese': new Japanese(),
   'Spanish': new Spanish()
 };
-
-var _ordinal = 0;
-
-function nextDatum(listName) {
-  return data[listName][_ordinal++ % data[listName].length];
-}
-
-function downloadTextFileToArray(fileName) {
-  var client = new XMLHttpRequest();
-  client.open('GET', 'https://raw.githubusercontent.com/jbnv/WordLists/master/'+fileName+'.txt');
-  client.onreadystatechange = function() {
-    var text = client.responseText;
-    data[fileName] = text.split("\n");
-    shuffle(data[fileName])
-  }
-  client.send();
-}
-
-// Randomize array element order in-place. Durstenfeld shuffle algorithm.
-function shuffle(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-    return array;
-}
-
-fileNames.forEach(downloadTextFileToArray);
 
 function toTitleCase(str)
 {
@@ -83,22 +45,6 @@ function ipsum(options) {
   return sentences.join(" ");
 }
 
-var _germanGenderOrdinal = 0;
-
-function germanName() {
-  var name = _germanGenderOrdinal++ % 2 == 0 ? nextDatum('GermanMaleNames') : nextDatum('GermanFemaleNames');
-  var surname = nextDatum('GermanSurnamePrefixes') + nextDatum('GermanSurnameSuffixes');
-  return name+" "+surname;
-}
-
-var _japaneseGenderOrdinal = 0;
-
-function japaneseName() {
-  var name = _japaneseGenderOrdinal++ % 2 == 0 ? nextDatum('JapaneseMaleNames') : nextDatum('JapaneseFemaleNames');
-  var surname = nextDatum('JapaneseSurnamePrefixes') + nextDatum('JapaneseSurnameSuffixes');
-  return surname+" "+name;
-}
-
 function today() {
   return moment().format("YYYY-MM-DD");
 }
@@ -113,7 +59,7 @@ function laterDate() {
   return moment().add(Math.pow(365.25*3,Math.random()),'days').format("YYYY-MM-DD");
 }
 
-function languageFn(fnName) { 
+function languageFn(fnName) {
   return function() {
     return _languages[_language][fnName]();
   }
@@ -169,6 +115,12 @@ for (var l in _languages) {
   chrome.contextMenus.create({
     "title": l, "contexts":["editable"],
     "type":"radio",
-    "checked":_language == l,
-    "onclick": function(info, tab) { _language = l; }});
+    "checked": _language == l,
+    "onclick": function(languageName) {
+      return function(info, tab) {
+        console.log("_language <= ",languageName);
+        _language = languageName;
+      };
+    }(l)
+  });
 }

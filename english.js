@@ -1,5 +1,9 @@
 var English = function() {
 
+  downloadTextFile('EnglishOrdinalNumbers');
+  downloadTextFile('EnglishPlants');
+  downloadTextFile('EnglishAdjectives');
+
   this.maleName = function() {
     //return nextDatum('EnglishMaleNames');
     return "John";

@@ -1,3 +1,7 @@
+3.0 (2015-12-05)
+- Revamp model to make languages pluggable and chooseable.
+- Add date options.
+
 2.6 (2015-12-04)
 - Implement Spanish names.
 

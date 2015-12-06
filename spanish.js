@@ -1,5 +1,9 @@
 var Spanish = function() {
 
+  downloadTextFile('SpanishMaleNames');
+  downloadTextFile('SpanishFemaleNames');
+  downloadTextFile('SpanishSurnames');
+
   this.maleName = function() {
     return nextDatum('SpanishMaleNames');
   };
