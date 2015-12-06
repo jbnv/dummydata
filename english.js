@@ -50,4 +50,22 @@ var English = function() {
     return toTitleCase(address);
   }
 
+  this.ipsum = function(options) {
+    var articles = ["the","some","any","many","few"];
+    var sentenceCount = options == null ? 1 : (options.count || 1);
+    var sentences = [];
+    for (var i = 0; i < sentenceCount; i++) {
+      var article1 = articles[Math.floor(articles.length*Math.random())];
+      var adjective1 = nextDatum("EnglishAdjectives");
+      var noun1 = nextDatum("EnglishPlants") + "s";
+      var verb = "covered";
+      var article2 = articles[Math.floor(articles.length*Math.random())];
+      var adjective2 = nextDatum("EnglishAdjectives");
+      var noun2 = nextDatum("EnglishPlants") + "s";
+      var sentence = toInitialCase(article1+" "+adjective1+" "+noun1+" "+verb+" "+article2+" "+adjective2+" "+noun2+".")
+      sentences.push(sentence);
+    }
+    return sentences.join(" ");
+  }
+
 }

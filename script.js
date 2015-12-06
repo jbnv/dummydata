@@ -6,16 +6,6 @@ var _languages = {
   'Spanish': new Spanish()
 };
 
-function toTitleCase(str)
-{
-    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-}
-
-function toInitialCase(str)
-{
-    return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
-}
-
 function number(){
   return Math.floor(Math.pow(10,Math.random()*10));
 }
@@ -25,24 +15,6 @@ function streetAddress(){
   var types = ["Street","Road","Drive","Lane"];
   var address = "" + number + " " + nextDatum('EnglishOrdinalNumbers') + " " + types[Math.floor(types.length*Math.random())]
   return toTitleCase(address);
-}
-
-function ipsum(options) {
-  var articles = ["the","some","any","many","few"];
-  var sentenceCount = options == null ? 1 : (options.count || 1);
-  var sentences = [];
-  for (var i = 0; i < sentenceCount; i++) {
-    var article1 = articles[Math.floor(articles.length*Math.random())];
-    var adjective1 = nextDatum("EnglishAdjectives");
-    var noun1 = nextDatum("EnglishPlants") + "s";
-    var verb = "covered";
-    var article2 = articles[Math.floor(articles.length*Math.random())];
-    var adjective2 = nextDatum("EnglishAdjectives");
-    var noun2 = nextDatum("EnglishPlants") + "s";
-    var sentence = toInitialCase(article1+" "+adjective1+" "+noun1+" "+verb+" "+article2+" "+adjective2+" "+noun2+".")
-    sentences.push(sentence);
-  }
-  return sentences.join(" ");
 }
 
 function today() {
@@ -59,7 +31,7 @@ function laterDate() {
   return moment().add(Math.pow(365.25*3,Math.random()),'days').format("YYYY-MM-DD");
 }
 
-function languageFn(fnName) {
+function languageFn(fnName,options) {
   return function() {
     if (_languages[_language] == null) {
       alert("Language '"+_language+"' not defined.");
@@ -69,7 +41,7 @@ function languageFn(fnName) {
       alert("Function '"+fnName+"' not defined for language '"+_language+"'.");
       return "";
     }
-    return _languages[_language][fnName]();
+    return _languages[_language][fnName](options);
   }
 }
 
@@ -96,9 +68,9 @@ var menuItems = [
   ["Number",number],
   ["Street Address",languageFn('streetAddress')],
   null,
-  ["Ipsum 1 sentence",ipsum],
-  ["Ipsum 3 sentences",ipsum,{count:3}],
-  ["Ipsum 5 sentences",ipsum,{count:5}],
+  ["Ipsum 1 sentence",languageFn('ipsum')],
+  ["Ipsum 3 sentences",languageFn('ipsum',{count:3})],
+  ["Ipsum 5 sentences",languageFn('ipsum',{count:5})],
   null,
   ["Today",today],
   ["Earlier Date",earlierDate],
