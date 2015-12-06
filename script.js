@@ -6,6 +6,14 @@ var fileNames = [
 ];
 var data = {};
 
+var _language = 'English';
+var _languages = {
+  'English': new English(),
+  'German': new German(),
+  'Japanese': new Japanese(),
+  'Spanish': new Spanish()
+};
+
 var _ordinal = 0;
 
 function nextDatum(listName) {
@@ -75,17 +83,6 @@ function ipsum(options) {
   return sentences.join(" ");
 }
 
-function englishName() {
-  return "John Doe";
-}
-
-var _spanishGenderOrdinal = 0;
-
-function spanishName() {
-  var name = _spanishGenderOrdinal++ % 2 == 0 ? nextDatum('SpanishMaleNames') : nextDatum('SpanishFemaleNames');
-  return name+" "+nextDatum('SpanishSurnames');
-}
-
 var _germanGenderOrdinal = 0;
 
 function germanName() {
@@ -102,8 +99,33 @@ function japaneseName() {
   return surname+" "+name;
 }
 
+function today() {
+  return moment().format("YYYY-MM-DD");
+}
+
+// earlierDate: Pick a date up to three years before today's date.
+function earlierDate() {
+  return moment().subtract(Math.pow(365.25*3,Math.random()),'days').format("YYYY-MM-DD");
+}
+
+// laterDate: Pick a date up to three years after today's date.
+function laterDate() {
+  return moment().add(Math.pow(365.25*3,Math.random()),'days').format("YYYY-MM-DD");
+}
+
+function languageFn(fnName) { 
+  return function() {
+    return _languages[_language][fnName]();
+  }
+}
+
+
 function insert(generatorFn,options) {
   return function(info, tab) {
+    if (generatorFn == null) {
+      alert ("Generator function is not defined.");
+      return;
+    }
     var value = generatorFn(options);
     var script = 'var form = document.activeElement;form.value = (form.value + "' + value + '");';
     chrome.tabs.executeScript({code : script});
@@ -111,17 +133,22 @@ function insert(generatorFn,options) {
 }
 
 var menuItems = [
-  ["English Name", englishName],
-  ["German Name", germanName],
-  ["Japanese Name", japaneseName],
-  ["Spanish Name", spanishName],
+  ["Male Name", languageFn('maleName')],
+  ["Female Name", languageFn('femaleName')],
+  ["Surname", languageFn('surname')],
+  ["Male Full Name", languageFn('maleFullName')],
+  ["Female Full Name", languageFn('femaleFullName')],
   null,
   ["Number",number],
   ["Street Address",streetAddress],
   null,
   ["Ipsum 1 sentence",ipsum],
   ["Ipsum 3 sentences",ipsum,{count:3}],
-  ["Ipsum 5 sentences",ipsum,{count:5}]
+  ["Ipsum 5 sentences",ipsum,{count:5}],
+  null,
+  ["Today",today],
+  ["Earlier Date",earlierDate],
+  ["Later Date",laterDate],
 ];
 
 menuItems.forEach(function(item) {
@@ -138,13 +165,10 @@ menuItems.forEach(function(item) {
 
 chrome.contextMenus.create({"type":"separator","contexts":["editable"]});
 
-var _language = 'English';
-var _languages = ['English','German','Japanese','Spanish'];
-
-_languages.forEach(function(l) {
+for (var l in _languages) {
   chrome.contextMenus.create({
     "title": l, "contexts":["editable"],
     "type":"radio",
     "checked":_language == l,
     "onclick": function(info, tab) { _language = l; }});
-});
+}

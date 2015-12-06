@@ -8,6 +8,6 @@
 
   "permissions": ["activeTab","contextMenus","downloads"],
   "background": {
-    "scripts": ["english.js","german.js","japanese.js","spanish.js","script.js"]
+    "scripts": ["moment.js","english.js","german.js","japanese.js","spanish.js","script.js"]
   }
 }

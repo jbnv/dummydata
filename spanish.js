@@ -1,9 +1,23 @@
-var Spanish = function () {
+var Spanish = function() {
 
-  this.maleName = function() {};
-  this.femaleName = function() {};
-  this.surname = function() {};
+  this.maleName = function() {
+    return nextDatum('SpanishMaleNames');
+  };
 
-  this.fullName = function() {};
+  this.femaleName = function() {
+    return nextDatum('SpanishFemaleNames');
+  };
+
+  this.surname = function() {
+    return nextDatum('SpanishSurnames');
+  };
+
+  this.maleFullName = function() {
+    return this.maleName()+" "+this.surname();
+  };
+
+  this.femaleFullName = function() {
+    return this.femaleName()+" "+this.surname();
+  };
 
 };
