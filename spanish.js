@@ -4,6 +4,9 @@ var Spanish = function() {
   downloadTextFile('SpanishFemaleNames');
   downloadTextFile('SpanishSurnames');
   downloadTextFile('SpanishNameStems');
+  downloadTextFile('SpanishPlaces');
+
+  var _this = this;
 
   this.maleName = function() {
     if (Math.random() < 0.5) {
@@ -22,9 +25,14 @@ var Spanish = function() {
   };
 
   var oneSurname = function() {
-    if (Math.random() < 0.5) {
+
+    var selector = Math.random();
+
+    if (selector < 0.45) {
       return nextDatum('SpanishSurnames');
-    } else {
+    }
+
+    if (selector < 0.85) {
       var stem = nextDatum('SpanishNameStems');
       console.log(stem,stem.substr(-1))
       switch (stem.substr(-1)) {
@@ -33,6 +41,16 @@ var Spanish = function() {
       }
       return stem+"ez";
     }
+
+    if (selector < 0.90) {
+      return "de "+nextDatum('SpanishPlaces');
+    }
+
+    if (selector < 0.95) {
+      return "San "+_this.maleName();
+    }
+
+    return "Santa "+_this.femaleName();
   };
 
   this.surname = function() {
