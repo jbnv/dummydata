@@ -2,23 +2,67 @@ var _data = {};
 
 var _ordinal = 0;
 
-function downloadTextFile(listName) {
+function _singular() { return false; }
+function _plural() { return true; }
+function _singularOrPlural(fractionPlural) { return Math.random() < fractionPlural; }
+
+// options.transform: function(t) that produces an array based on t per the part-of-speech pattern.
+function downloadTextFile(listName,options) {
   var client = new XMLHttpRequest();
   client.open('GET', 'https://raw.githubusercontent.com/jbnv/WordLists/master/'+listName+'.txt');
   client.onreadystatechange = function() {
-    var text = client.responseText;
-    _data[listName] = text.split("\n").filter(function(s) {return s.length > 0;});
+    _data[listName] = [];
+    client.responseText.split("\n").forEach(function(line) {
+      if (line.length == 0) return; // filter out blank lines
+      var split = line.split("|");
+      if (options != null && options.transform != null) {
+        split = options.transform(split);
+        if (split == null) {
+          console.log(listName,"transform function produces null split!");
+          return;
+        }
+      }
+      _data[listName].push(split);
+    });
     shuffle(_data[listName])
   }
   client.send();
 }
 
-function nextDatum(listName) {
+function nextDatum(listName,options) {
+
   var list = _data[listName];
   if (list == null) {
-    return "(UNAVAILABLE)";
+    console.log("List '"+listName+"' is unavailable.")
+    return "";
   }
-  return list[_ordinal++ % list.length];
+
+  var ordinal = _ordinal++ % list.length;
+  var itemArray = list[ordinal];
+  if (itemArray == null) {
+    console.log("Item "+ordinal+" of list '"+listName+"' is null.")
+    return "";
+  }
+  if (itemArray.length == 0) {
+    console.log("Item "+ordinal+" of list '"+listName+"' is an empty array.")
+    return "";
+  }
+
+  if (options == null) return itemArray[0];
+
+  if (options.partOfSpech == 'noun') {
+    return itemArray[options.plural ? 1 : 0];
+  }
+  if (options.partOfSpech == 'verb') {
+    if (options.case == null) return itemArray[0];
+    switch (options.case) {
+      case 'present-singular': return itemArray[0];
+      case 'present-plural': return itemArray[1];
+      case 'past': return itemArray[2];
+    }
+  }
+
+  return itemArray[0]; // catch-all
 }
 
 // Randomize array element order in-place. Durstenfeld shuffle algorithm.
@@ -40,4 +84,12 @@ function toTitleCase(str)
 function toInitialCase(str)
 {
     return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+}
+
+Array.prototype.nextElement = function() {
+  return this[_ordinal % this.length];
+}
+
+Array.prototype.randomElement = function() {
+  return this[Math.floor(this.length*Math.random())];
 }

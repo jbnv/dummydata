@@ -1,7 +1,17 @@
 var English = function() {
 
+  var nounOption = {
+    partOfSpech: "noun",
+    transform: function(itemArray) {
+      if (itemArray.length == 1) {
+        itemArray.push(itemArray[0]+"s");
+      }
+      return itemArray;
+    }
+  }
+
   downloadTextFile('EnglishAdjectives');
-  downloadTextFile('EnglishAnimals');
+  downloadTextFile('EnglishAnimals',nounOption);
   downloadTextFile('EnglishCardinalNumbers');
   downloadTextFile('EnglishFemaleNames');
   downloadTextFile('EnglishFeminineSuffixes');
@@ -10,27 +20,31 @@ var English = function() {
   downloadTextFile('EnglishNameSuffixes1'); // suffixes that begin with a consonant
   downloadTextFile('EnglishNameSuffixes2'); // suffixes that begin with a vowel
   downloadTextFile('EnglishOrdinalNumbers');
-  downloadTextFile('EnglishPlants');
+  downloadTextFile('EnglishPlants',nounOption);
   downloadTextFile('EnglishSurnames');
 
   var _this = this;
 
+  // [adjective phrase, is plural? (default false)]
   var adjectivePhraseOptions = [
-    function() { return "the" },
-    function() { return "the "+nextDatum("EnglishAdjectives") },
-    function() { return nextDatum("EnglishCardinalNumbers") },
-    function() { return "the "+nextDatum("EnglishCardinalNumbers") },
-    function() { return "the "+nextDatum("EnglishOrdinalNumbers") },
-    function() { return "some" },
-    function() { return "some "+nextDatum("EnglishAdjectives") },
-    function() { return "any" },
-    function() { return "any "+nextDatum("EnglishAdjectives") },
-    function() { return "many" },
-    function() { return "many "+nextDatum("EnglishAdjectives") },
-    function() { return "many" },
-    function() { return "few "+nextDatum("EnglishAdjectives") },
-    function() { return _this.maleName()+"'s" },
-    function() { return _this.femaleName()+"'s" }
+    function() { return ["the"]; },
+    function() { return ["the "+nextDatum("EnglishAdjectives"),_singularOrPlural(0.50)]; },
+    function() { return [nextDatum("EnglishCardinalNumbers"),true]; },
+    function() {
+      var number = nextDatum("EnglishCardinalNumbers");
+      return ["the "+number, number != "one"];
+    },
+    function() { return ["the "+nextDatum("EnglishOrdinalNumbers")]; },
+    function() { return ["some",_singularOrPlural(0.50)]; },
+    function() { return ["some "+nextDatum("EnglishAdjectives"),true]; },
+    function() { return ["any",true]; },
+    function() { return ["any "+nextDatum("EnglishAdjectives"),true]; },
+    function() { return ["many",true]; },
+    function() { return ["many "+nextDatum("EnglishAdjectives"),true]; },
+    function() { return ["few",true]; },
+    function() { return ["few "+nextDatum("EnglishAdjectives"),true]; },
+    function() { return [_this.maleName()+"'s",_singularOrPlural(0.50)]; },
+    function() { return [_this.femaleName()+"'s",_singularOrPlural(0.50)]; }
   ];
 
   this.adjectivePhrase = function() {
@@ -83,14 +97,27 @@ var English = function() {
     return toTitleCase(address);
   }
 
+  function ipsum_clause() {
+    var adjectivePhraseArray = _this.adjectivePhrase();
+    var nextDatumOptions = {
+      partOfSpech: 'noun',
+      plural: adjectivePhraseArray.length >= 2 && adjectivePhraseArray[1]
+    };
+    console.log("nextDatumOptions",nextDatumOptions);
+    var noun = [
+      function() { return nextDatum('EnglishAnimals',nextDatumOptions); },
+      function() { return nextDatum('EnglishPlants',nextDatumOptions); }
+    ].nextElement()();
+    console.log("noun",noun);
+    return adjectivePhraseArray[0]+" "+noun;
+  }
+
   this.ipsum = function(options) {
     var sentenceCount = options == null ? 1 : (options.count || 1);
     var sentences = [];
     for (var i = 0; i < sentenceCount; i++) {
-      var noun1 = nextDatum("EnglishPlants") + "s";
       var verb = "covered";
-      var noun2 = nextDatum("EnglishPlants") + "s";
-      var sentence = toInitialCase(this.adjectivePhrase()+" "+noun1+" "+verb+" "+this.adjectivePhrase()+" "+noun2+".")
+      var sentence = toInitialCase(ipsum_clause()+" "+verb+" "+ipsum_clause()+".")
       sentences.push(sentence);
     }
     return sentences.join(" ");
