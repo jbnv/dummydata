@@ -10,13 +10,6 @@ function number(){
   return Math.floor(Math.pow(10,Math.random()*10));
 }
 
-function streetAddress(){
-  var number = Math.floor(Math.pow(Math.random()*4,10));
-  var types = ["Street","Road","Drive","Lane"];
-  var address = "" + number + " " + nextDatum('EnglishOrdinalNumbers') + " " + types[Math.floor(types.length*Math.random())]
-  return toTitleCase(address);
-}
-
 function today() {
   return moment().format("YYYY-MM-DD");
 }
