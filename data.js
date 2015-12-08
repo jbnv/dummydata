@@ -56,9 +56,10 @@ function nextDatum(listName,options) {
   if (options.partOfSpech == 'verb') {
     if (options.case == null) return itemArray[0];
     switch (options.case) {
-      case 'present-singular': return itemArray[0];
-      case 'present-plural': return itemArray[1];
-      case 'past': return itemArray[2];
+      case 'present-singular': return itemArray[1] || itemArray[0];
+      case 'present-plural': return itemArray[2] || itemArray[0];
+      case 'past': return itemArray[3];
+      case 'participle': return itemArray[4];
     }
   }
 

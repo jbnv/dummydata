@@ -10,6 +10,39 @@ var English = function() {
     }
   }
 
+  var verbOption = {
+    partOfSpeech: "verb",
+    transform: function(itemArray) {
+      var outbound = [];
+      var stem = itemArray[0];
+      if (stem.substr(-3) == "{e}") {
+        stem = stem.substr(0,stem.length-3);
+        outbound.push(stem+"e");
+        outbound.push(stem+"es"); // present singular
+        outbound.push(stem+"e"); // present plural
+        outbound.push(stem+"ed"); // past
+        outbound.push(stem+"ing"); // participle
+        return outbound;
+      }
+      if (stem.substr(-3) == "{y}") {
+        stem = stem.substr(0,stem.length-3);
+        outbound.push(stem+"y");
+        outbound.push(stem+"ies"); // present singular
+        outbound.push(stem+"y"); // present plural
+        outbound.push(stem+"ied"); // past
+        outbound.push(stem+"ying"); // participle
+        return outbound;
+      }
+
+      outbound.push(stem);
+      outbound.push(itemArray[1] || stem+"s"); // present singular
+      outbound.push(itemArray[2] || stem); // present plural
+      outbound.push(itemArray[3] || stem+"ed"); // past
+      outbound.push(itemArray[4] || stem+"ing"); // participle
+      return outbound;
+    }
+  }
+
   downloadTextFile('EnglishAdjectives');
   downloadTextFile('EnglishAnimals',nounOption);
   downloadTextFile('EnglishCardinalNumbers');
@@ -22,6 +55,7 @@ var English = function() {
   downloadTextFile('EnglishOrdinalNumbers');
   downloadTextFile('EnglishPlants',nounOption);
   downloadTextFile('EnglishSurnames');
+  downloadTextFile('EnglishVerbs',verbOption);
 
   var _this = this;
 
@@ -112,12 +146,30 @@ var English = function() {
     return adjectivePhraseArray[0]+" "+noun;
   }
 
+  function ipsum_verb() {
+    var verbFns = [
+      function() { return nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'present-singular'}); },
+      function() { return nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'present-plural'}); },
+      function() { return nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
+      function() { return "could "+nextDatum('EnglishVerbs'); },
+      function() { return "could have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
+      function() { return "would "+nextDatum('EnglishVerbs'); },
+      function() { return "would have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
+      function() { return "should "+nextDatum('EnglishVerbs'); },
+      function() { return "should have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
+      function() { return "may "+nextDatum('EnglishVerbs'); },
+      function() { return "may have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
+      function() { return "might "+nextDatum('EnglishVerbs'); },
+      function() { return "might have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
+    ];
+    return verbFns.nextElement()();
+  }
+
   this.ipsum = function(options) {
     var sentenceCount = options == null ? 1 : (options.count || 1);
     var sentences = [];
     for (var i = 0; i < sentenceCount; i++) {
-      var verb = "covered";
-      var sentence = toInitialCase(ipsum_clause()+" "+verb+" "+ipsum_clause()+".")
+      var sentence = toInitialCase(ipsum_clause()+" "+ipsum_verb()+" "+ipsum_clause()+".")
       sentences.push(sentence);
     }
     return sentences.join(" ");
