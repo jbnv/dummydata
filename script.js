@@ -74,6 +74,8 @@ var menuItems = [
   ["Male Full Name", languageFn('maleFullName')],
   ["Female Full Name", languageFn('femaleFullName')],
   null,
+  ["Color", languageFn('color')],
+  null,
   ["Number",number],
   ["Street Address",languageFn('streetAddress')],
   ["0##-####",phoneNumber({format:"0##-####"})],

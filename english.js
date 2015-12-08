@@ -46,6 +46,7 @@ var English = function() {
   downloadTextFile('EnglishAdjectives');
   downloadTextFile('EnglishAnimals',nounOption);
   downloadTextFile('EnglishCardinalNumbers');
+  downloadTextFile('EnglishColors');
   downloadTextFile('EnglishFemaleNames');
   downloadTextFile('EnglishFeminineSuffixes');
   downloadTextFile('EnglishNamePrefixes1'); // prefixes that end in a consonant
@@ -85,6 +86,15 @@ var English = function() {
     return adjectivePhraseOptions[Math.floor(adjectivePhraseOptions.length*Math.random())]();
   }
 
+  this.color = function() {
+    var baseColor = nextDatum('EnglishColors');
+    if (baseColor == "black" || baseColor == "white") { return baseColor; }
+    var modifiers = ["light","medium","dark","bright","pale"];
+    var selector = Math.random();
+    if (selector < 0.3) { return modifiers[Math.floor(selector/0.3*modifiers.length)]+" "+baseColor; }
+    return baseColor;
+  }
+
   this.maleName = function() {
     var selector = Math.random();
     if (selector < 0.4) {
@@ -119,9 +129,14 @@ var English = function() {
   this.streetAddress = function() {
     var nameFns = [
       function() { return nextDatum('EnglishAnimals'); },
+      function() { return _this.color(); },
       function() { return nextDatum('EnglishOrdinalNumbers'); },
       function() { return nextDatum('EnglishPlants'); },
+      function() { return _this.maleName(); },
+      function() { return _this.femaleName(); },
       function() { return _this.surname(); },
+      function() { return _this.maleFullName(); },
+      function() { return _this.femaleFullName(); },
     ];
     var number = Math.floor(Math.pow(100000,Math.random()));
     var types = ["Street","Road","Drive","Lane"];
