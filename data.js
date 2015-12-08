@@ -50,10 +50,10 @@ function nextDatum(listName,options) {
 
   if (options == null) return itemArray[0];
 
-  if (options.partOfSpech == 'noun') {
+  if (options.partOfSpeech == 'noun') {
     return itemArray[options.plural ? 1 : 0];
   }
-  if (options.partOfSpech == 'verb') {
+  if (options.partOfSpeech == 'verb') {
     if (options.case == null) return itemArray[0];
     switch (options.case) {
       case 'present-singular': return itemArray[1] || itemArray[0];

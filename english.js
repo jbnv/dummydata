@@ -1,7 +1,7 @@
 var English = function() {
 
   var nounOption = {
-    partOfSpech: "noun",
+    partOfSpeech: "noun",
     transform: function(itemArray) {
       if (itemArray.length == 1) {
         itemArray.push(itemArray[0]+"s");
@@ -134,22 +134,18 @@ var English = function() {
   function ipsum_clause() {
     var adjectivePhraseArray = _this.adjectivePhrase();
     var nextDatumOptions = {
-      partOfSpech: 'noun',
+      partOfSpeech: 'noun',
       plural: adjectivePhraseArray.length >= 2 && adjectivePhraseArray[1]
     };
-    console.log("nextDatumOptions",nextDatumOptions);
     var noun = [
       function() { return nextDatum('EnglishAnimals',nextDatumOptions); },
       function() { return nextDatum('EnglishPlants',nextDatumOptions); }
     ].nextElement()();
-    console.log("noun",noun);
     return adjectivePhraseArray[0]+" "+noun;
   }
 
   function ipsum_verb() {
     var verbFns = [
-      function() { return nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'present-singular'}); },
-      function() { return nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'present-plural'}); },
       function() { return nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
       function() { return "could "+nextDatum('EnglishVerbs'); },
       function() { return "could have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
