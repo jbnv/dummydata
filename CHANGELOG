@@ -1,3 +1,6 @@
+3.5 (2015-12-07)
+- Add 7-digit and 10-digit telephone numbers.
+
 3.4 (2015-12-06)
 - Add English names.
 - Move street address and ipsum into English module.

@@ -31,6 +31,22 @@ function laterDate() {
   return moment().add(Math.pow(365.25*3,Math.random()),'days').format("YYYY-MM-DD");
 }
 
+function phoneNumber(options) {
+  return function() {
+    if (options == null) options = {};
+    if (!options.format) options.format = "0##-####";
+    var result = "";
+    for (var i = 0; i < options.format.length; i++) {
+      if (options.format[i] == '#') {
+        result += Math.floor(Math.random()*10);
+      } else {
+        result += options.format[i];
+      }
+    }
+    return result;
+  };
+}
+
 function languageFn(fnName,options) {
   return function() {
     if (_languages[_language] == null) {
@@ -67,6 +83,8 @@ var menuItems = [
   null,
   ["Number",number],
   ["Street Address",languageFn('streetAddress')],
+  ["0##-####",phoneNumber({format:"0##-####"})],
+  ["###-0##-####",phoneNumber({format:"###-0##-####"})],
   null,
   ["Ipsum 1 sentence",languageFn('ipsum')],
   ["Ipsum 3 sentences",languageFn('ipsum',{count:3})],
