@@ -65,7 +65,12 @@ function nextDatum(listName,options) {
     }
   }
 
-  if (options.transform) { return options.transform(outbound); }
+  if (options.transform) {
+    if (!options.transform.isArray) options.transform = [options.transform];
+    options.transform.forEach(function(fn) {
+      outbound = fn(outbound);
+    });
+  }
   return outbound;
 }
 
