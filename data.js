@@ -50,20 +50,23 @@ function nextDatum(listName,options) {
 
   if (options == null) return itemArray[0];
 
+  var outbound = itemArray[0]; // catch-all
+
   if (options.partOfSpeech == 'noun') {
-    return itemArray[options.plural ? 1 : 0];
+    outbound = itemArray[options.plural ? 1 : 0];
   }
   if (options.partOfSpeech == 'verb') {
-    if (options.case == null) return itemArray[0];
+    if (options.case == null) outbound = itemArray[0];
     switch (options.case) {
-      case 'present-singular': return itemArray[1] || itemArray[0];
-      case 'present-plural': return itemArray[2] || itemArray[0];
-      case 'past': return itemArray[3];
-      case 'participle': return itemArray[4];
+      case 'present-singular': outbound = itemArray[1] || itemArray[0];
+      case 'present-plural': outbound = itemArray[2] || itemArray[0];
+      case 'past': outbound = itemArray[3];
+      case 'participle': outbound = itemArray[4];
     }
   }
 
-  return itemArray[0]; // catch-all
+  if (options.transform) { return options.transform(outbound); }
+  return outbound;
 }
 
 // Randomize array element order in-place. Durstenfeld shuffle algorithm.
@@ -93,4 +96,24 @@ Array.prototype.nextElement = function() {
 
 Array.prototype.randomElement = function() {
   return this[Math.floor(this.length*Math.random())];
+}
+
+Array.prototype.randomWeightedElement = function() {
+
+  // Sum up the selector values.
+  var weightSum = 0;
+  for(var i = 0, len = this.length; i < len; i++) {
+    weightSum += this[i][0];
+  }
+
+  // Pick a selector value at random.
+  var selector = Math.floor(Math.random()*weightSum);
+
+  var i = 0;
+  for(var i = 0, len = this.length; i < len; i++) {
+    selector -= this[i][0];
+    if (selector < 0) { return this[i][1]; }
+  }
+
+  return "Array breach; selector = "+selector; // this should never happen
 }
