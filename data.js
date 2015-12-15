@@ -6,27 +6,96 @@ function _singular() { return false; }
 function _plural() { return true; }
 function _singularOrPlural(fractionPlural) { return Math.random() < fractionPlural; }
 
+function _processLine(line,options) {
+  if (line.length == 0) return; // filter out blank lines
+  var split = line.split("|");
+  if (options != null && options.transform != null) {
+    split = options.transform(split);
+    if (split == null) {
+      console.log(listName,"transform function produces null split!");
+      return;
+    }
+  }
+  return split;
+}
+
+function _downloadFile(url) {
+  console.log("_downloadFile",url);
+
+  var request = new XMLHttpRequest();
+  var deferred = Q.defer();
+
+  request.open("GET", url, true);
+  request.onload = onload;
+  request.onerror = onerror;
+  request.onprogress = onprogress;
+  request.send();
+
+  function onload() {
+    if (request.status !== 200) {
+      deferred.reject(new Error("Status code was " + request.status));
+      return;
+    }
+
+    if (request.responseText == "") {
+      deferred.reject(new Error("No data returned!"));
+      return;
+    }
+
+    deferred.resolve(request.responseText);
+  }
+
+  function onerror() {
+    deferred.reject(new Error("Can't XHR " + JSON.stringify(url)));
+  }
+
+  function onprogress(event) {
+    deferred.notify(event.loaded / event.total);
+  }
+
+  return deferred.promise;
+}
+
+function _listToData(listName,list,options) {
+  console.log(listName+": Adding "+list.length+" lines.",options);
+  _data[listName] = [];
+  list.forEach(function(line) {
+    var split = _processLine(line,options);
+    _data[listName].push(split);
+  });
+  shuffle(_data[listName]);
+}
+
 // options.transform: function(t) that produces an array based on t per the part-of-speech pattern.
 function downloadTextFile(listName,options) {
-  var client = new XMLHttpRequest();
-  client.open('GET', 'https://raw.githubusercontent.com/jbnv/WordLists/master/'+listName+'.txt');
-  client.onreadystatechange = function() {
-    _data[listName] = [];
-    client.responseText.split("\n").forEach(function(line) {
-      if (line.length == 0) return; // filter out blank lines
-      var split = line.split("|");
-      if (options != null && options.transform != null) {
-        split = options.transform(split);
-        if (split == null) {
-          console.log(listName,"transform function produces null split!");
-          return;
-        }
+  var url = 'https://raw.githubusercontent.com/jbnv/WordLists/master/'+listName+'.txt';
+  _downloadFile(url)
+  .then(
+    function(text) {
+      _listToData(listName,text.split("\n"),options);
+    },
+    function(error) {
+      console.error(error);
+    }
+  );
+}
+
+// Download an entire language definition that was minified into a JSON file.
+// options.transform: function(t) that produces an array based on t per the part-of-speech pattern.
+function downloadLanguageJSON(language,options) {
+  var url = 'https://raw.githubusercontent.com/jbnv/WordLists/master/'+language+'.json';
+  _downloadFile(url)
+  .then(
+    function(json) {
+      var data = JSON.parse(json);
+      for (var listName in data) {
+        _listToData(listName,data[listName],options);
       }
-      _data[listName].push(split);
-    });
-    shuffle(_data[listName])
-  }
-  client.send();
+    },
+    function(error) {
+      console.error(error);
+    }
+  );
 }
 
 function nextDatum(listName,options) {

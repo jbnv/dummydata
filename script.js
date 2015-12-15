@@ -2,6 +2,7 @@ var _language = 'English';
 var _languages = {
   'English': new English(),
   'German': new German(),
+  'Greek': new Greek(),
   'Japanese': new Japanese(),
   'Spanish': new Spanish()
 };

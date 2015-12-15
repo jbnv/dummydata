@@ -1,3 +1,8 @@
+3.7 (2015-12-14)
+- Implement bulk downloading.
+- Implement promises with Q.
+- Greek language processor.
+
 3.6 (2015-12-08)
 - Spanish name enhancements.
 
