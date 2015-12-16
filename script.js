@@ -1,4 +1,4 @@
-var _language = 'English';
+var _language = localStorage["language"] || 'English';
 var _languages = {
   'English': new English(),
   'German': new German(),
@@ -75,16 +75,16 @@ var menuItems = [
   ["Male Full Name", languageFn('maleFullName')],
   ["Female Full Name", languageFn('femaleFullName')],
   null,
-  ["Color", languageFn('color')],
-  null,
-  ["Number",number],
-  ["Street Address",languageFn('streetAddress')],
-  ["0##-####",phoneNumber({format:"0##-####"})],
-  ["###-0##-####",phoneNumber({format:"###-0##-####"})],
-  null,
   ["Ipsum 1 sentence",languageFn('ipsum')],
   ["Ipsum 3 sentences",languageFn('ipsum',{count:3})],
   ["Ipsum 5 sentences",languageFn('ipsum',{count:5})],
+  null,
+  ["Color", languageFn('color')],
+  ["Street Address",languageFn('streetAddress')],
+  null,
+  ["Number",number],
+  ["0##-####",phoneNumber({format:"0##-####"})],
+  ["###-0##-####",phoneNumber({format:"###-0##-####"})],
   null,
   ["Today",today],
   ["Earlier Date",earlierDate],
@@ -114,6 +114,7 @@ for (var l in _languages) {
       return function(info, tab) {
         console.log("_language <= ",languageName);
         _language = languageName;
+        localStorage["language"] = languageName;
       };
     }(l)
   });
