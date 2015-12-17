@@ -57,7 +57,7 @@ function _downloadFile(url) {
 }
 
 function _listToData(listName,list,options) {
-  console.log(listName+": Adding "+list.length+" lines.",options);
+  //console.log(listName+": Adding "+list.length+" lines.",options);
   _data[listName] = [];
   list.forEach(function(line) {
     var split = _processLine(line,options);
