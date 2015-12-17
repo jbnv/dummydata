@@ -125,12 +125,12 @@ function nextDatum(listName,options) {
     outbound = itemArray[options.plural ? 1 : 0];
   }
   if (options.partOfSpeech == 'verb') {
-    if (options.case == null) outbound = itemArray[0];
+    outbound = itemArray[0];
     switch (options.case) {
-      case 'present-singular': outbound = itemArray[1] || itemArray[0];
-      case 'present-plural': outbound = itemArray[2] || itemArray[0];
-      case 'past': outbound = itemArray[3];
-      case 'participle': outbound = itemArray[4];
+      case 'present-singular': outbound = itemArray[1] || itemArray[0]; break;
+      case 'present-plural': outbound = itemArray[2] || itemArray[0]; break;
+      case 'past': outbound = itemArray[3]; break;
+      case 'participle': outbound = itemArray[4]; break;
     }
   }
 

@@ -159,22 +159,30 @@ var English = function() {
     return adjectivePhraseArray[0]+" "+noun;
   }
 
-  function ipsum_verb() {
-    var verbFns = [
-      function() { return nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
-      function() { return "could "+nextDatum('EnglishVerbs'); },
-      function() { return "could have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
-      function() { return "would "+nextDatum('EnglishVerbs'); },
-      function() { return "would have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
-      function() { return "should "+nextDatum('EnglishVerbs'); },
-      function() { return "should have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
-      function() { return "may "+nextDatum('EnglishVerbs'); },
-      function() { return "may have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
-      function() { return "might "+nextDatum('EnglishVerbs'); },
-      function() { return "might have "+nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':'past'}); },
-    ];
-    return verbFns.nextElement()();
+  function verbSelector(tense) {
+    return nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':tense});
   }
+
+  var ipsum_verb_selectionList = [
+    [5, function() { return verbSelector('past');}],
+    [5, function() {
+      var selector1 = [
+        ['','infinitive'],
+        ['be','past'],
+        ['be','participle'],
+        ['have','past'],
+        ['have been','past'],
+        ['have been','participle']
+      ].randomElement();
+      var outbound =
+        ['can','could','shall','should','may','might','will','would'].randomElement()
+        + " " + selector1[0] + (selector1[0] == "" ? "" : " ")
+        + verbSelector(selector1[1]);
+      return outbound;
+    }]
+  ];
+
+  function ipsum_verb() { return ipsum_verb_selectionList.randomWeightedElement()(); }
 
   this.ipsum = function(options) {
     var sentenceCount = options == null ? 1 : (options.count || 1);
