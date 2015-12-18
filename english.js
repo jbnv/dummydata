@@ -43,20 +43,22 @@ var English = function() {
     }
   }
 
-  downloadTextFile('EnglishAdjectives');
-  downloadTextFile('EnglishAnimals',nounOption);
-  downloadTextFile('EnglishCardinalNumbers');
-  downloadTextFile('EnglishColors');
-  downloadTextFile('EnglishFemaleNames');
-  downloadTextFile('EnglishFeminineSuffixes');
-  downloadTextFile('EnglishNamePrefixes1'); // prefixes that end in a consonant
-  downloadTextFile('EnglishNamePrefixes2'); // prefixes that end in a vowel
-  downloadTextFile('EnglishNameSuffixes1'); // suffixes that begin with a consonant
-  downloadTextFile('EnglishNameSuffixes2'); // suffixes that begin with a vowel
-  downloadTextFile('EnglishOrdinalNumbers');
-  downloadTextFile('EnglishPlants',nounOption);
-  downloadTextFile('EnglishSurnames');
-  downloadTextFile('EnglishVerbs',verbOption);
+  var _urlPrefix = "Languages/English";
+
+  downloadTextFile(_urlPrefix,'EnglishAdjectives');
+  downloadTextFile(_urlPrefix,'EnglishAnimals',nounOption);
+  downloadTextFile(_urlPrefix,'EnglishCardinalNumbers');
+  downloadTextFile(_urlPrefix,'EnglishColors');
+  downloadTextFile(_urlPrefix,'EnglishFemaleNames');
+  downloadTextFile(_urlPrefix,'EnglishFeminineSuffixes');
+  downloadTextFile(_urlPrefix,'EnglishNamePrefixes1'); // prefixes that end in a consonant
+  downloadTextFile(_urlPrefix,'EnglishNamePrefixes2'); // prefixes that end in a vowel
+  downloadTextFile(_urlPrefix,'EnglishNameSuffixes1'); // suffixes that begin with a consonant
+  downloadTextFile(_urlPrefix,'EnglishNameSuffixes2'); // suffixes that begin with a vowel
+  downloadTextFile(_urlPrefix,'EnglishOrdinalNumbers');
+  downloadTextFile(_urlPrefix,'EnglishPlants',nounOption);
+  downloadTextFile(_urlPrefix,'EnglishSurnames');
+  downloadTextFile(_urlPrefix,'EnglishVerbs',verbOption);
 
   var _this = this;
 

@@ -1,12 +1,6 @@
 var Spanish = function() {
 
-  downloadTextFile('SpanishCardinalNumbers');
-  downloadTextFile('SpanishOrdinalNumbers');
-  downloadTextFile('SpanishMaleNames');
-  downloadTextFile('SpanishFemaleNames');
-  downloadTextFile('SpanishSurnames');
-  downloadTextFile('SpanishNameStems');
-  downloadTextFile('SpanishPlaces');
+  downloadLanguageJSON('Spanish');
 
   var _this = this;
 

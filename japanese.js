@@ -1,9 +1,6 @@
 var Japanese = function() {
 
-  downloadTextFile('JapaneseMaleNames');
-  downloadTextFile('JapaneseFemaleNames');
-  downloadTextFile('JapaneseSurnamePrefixes');
-  downloadTextFile('JapaneseSurnameSuffixes');
+  downloadLanguageJSON('Japanese');
 
   this.maleName = function() {
     return nextDatum('JapaneseMaleNames');

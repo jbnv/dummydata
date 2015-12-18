@@ -1,9 +1,6 @@
 var German = function() {
 
-  downloadTextFile('GermanMaleNames');
-  downloadTextFile('GermanFemaleNames');
-  downloadTextFile('GermanSurnamePrefixes');
-  downloadTextFile('GermanSurnameSuffixes');
+  downloadLanguageJSON('German');
 
   this.maleName = function() {
     return nextDatum('GermanMaleNames');

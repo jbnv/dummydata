@@ -2,6 +2,10 @@ var _data = {};
 
 var _ordinal = 0;
 
+var _repositoryURL = 'https://raw.githubusercontent.com/jbnv/WordLists/master/';
+var _languageRepositoryURL = _repositoryURL+'Languages/';
+var _countryRepositoryURL = _repositoryURL+"Countries/";
+
 function _singular() { return false; }
 function _plural() { return true; }
 function _singularOrPlural(fractionPlural) { return Math.random() < fractionPlural; }
@@ -67,8 +71,8 @@ function _listToData(listName,list,options) {
 }
 
 // options.transform: function(t) that produces an array based on t per the part-of-speech pattern.
-function downloadTextFile(listName,options) {
-  var url = 'https://raw.githubusercontent.com/jbnv/WordLists/master/'+listName+'.txt';
+function downloadTextFile(urlPrefix,listName,options) {
+  var url = _repositoryURL+urlPrefix+'/'+listName+'.txt';
   _downloadFile(url)
   .then(
     function(text) {
@@ -83,7 +87,7 @@ function downloadTextFile(listName,options) {
 // Download an entire language definition that was minified into a JSON file.
 // options.transform: function(t) that produces an array based on t per the part-of-speech pattern.
 function downloadLanguageJSON(language,options) {
-  var url = 'https://raw.githubusercontent.com/jbnv/WordLists/master/'+language+'.json';
+  var url = _languageRepositoryURL+language+'/'+language+'.json';
   _downloadFile(url)
   .then(
     function(json) {
