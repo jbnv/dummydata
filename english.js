@@ -1,6 +1,8 @@
 var English = function() {
 
-  var nounOption = {
+  var listOptions = {};
+
+  listOptions.nounOption = {
     partOfSpeech: "noun",
     transform: function(itemArray) {
       if (itemArray.length == 1) {
@@ -10,7 +12,7 @@ var English = function() {
     }
   }
 
-  var verbOption = {
+  listOptions.verbOption = {
     partOfSpeech: "verb",
     transform: function(itemArray) {
       var outbound = [];
@@ -45,20 +47,22 @@ var English = function() {
 
   var _urlPrefix = "Languages/English";
 
-  downloadTextFile(_urlPrefix,'EnglishAdjectives');
-  downloadTextFile(_urlPrefix,'EnglishAnimals',nounOption);
-  downloadTextFile(_urlPrefix,'EnglishCardinalNumbers');
-  downloadTextFile(_urlPrefix,'EnglishColors');
-  downloadTextFile(_urlPrefix,'EnglishFemaleNames');
-  downloadTextFile(_urlPrefix,'EnglishFeminineSuffixes');
-  downloadTextFile(_urlPrefix,'EnglishNamePrefixes1'); // prefixes that end in a consonant
-  downloadTextFile(_urlPrefix,'EnglishNamePrefixes2'); // prefixes that end in a vowel
-  downloadTextFile(_urlPrefix,'EnglishNameSuffixes1'); // suffixes that begin with a consonant
-  downloadTextFile(_urlPrefix,'EnglishNameSuffixes2'); // suffixes that begin with a vowel
-  downloadTextFile(_urlPrefix,'EnglishOrdinalNumbers');
-  downloadTextFile(_urlPrefix,'EnglishPlants',nounOption);
-  downloadTextFile(_urlPrefix,'EnglishSurnames');
-  downloadTextFile(_urlPrefix,'EnglishVerbs',verbOption);
+  // Download the data files.
+  // This needs to be replaced with a call to the JSON file,
+  // but the JSON script needs to process the noun and verb options.
+  _downloadFile(_repositoryURL+'/Languages/English/English.txt')
+  .then(
+    function(text) {
+      text.split("\n").forEach(function(line) {
+        if (!line) return;
+        var a = line.split("|");
+        downloadTextFile(_urlPrefix,a[0],a.length > 1 && a[1] ? listOptions[a[1]] : null);
+      });
+    },
+    function(error) {
+      console.error(error);
+    }
+  );
 
   var _this = this;
 
@@ -128,6 +132,12 @@ var English = function() {
     return this.femaleName()+" "+this.surname();
   };
 
+  var cardinalDirectionsForAddresses = [
+    [10,['']],
+    [4,['N.','S.','E.','W.']],
+    [1,['NW','NE','SW','SE']]
+  ];
+
   this.streetAddress = function() {
     var nameFns = [
       function() { return nextDatum('EnglishAnimals'); },
@@ -139,12 +149,17 @@ var English = function() {
       function() { return _this.surname(); },
       function() { return _this.maleFullName(); },
       function() { return _this.femaleFullName(); },
+      function() { return nextDatum('EnglishAdjectives')+' '+nextDatum('EnglishTerrainWords'); },
     ];
     var number = Math.floor(Math.pow(100000,Math.random()));
-    var types = ["Street","Road","Drive","Lane"];
+    var cardinalDirectionArray = cardinalDirectionsForAddresses.randomWeightedElement();
+    var cardinalDirection = cardinalDirectionArray.randomElement();
     var streetName = nameFns[_ordinal % nameFns.length]();
-    var streetType = types[_ordinal % types.length];
-    var address = "" + number + " " + streetName + " " + streetType;
+    var streetType = nextDatum('EnglishRoadTypes');
+    var address
+      = "" + number + " "
+      + cardinalDirection + (cardinalDirection == '' ? '' : " ")
+      + streetName + " " + streetType;
     return toTitleCase(address);
   }
 
