@@ -163,6 +163,36 @@ var English = function() {
     return toTitleCase(address);
   }
 
+  var cardinalDirectionsForCity = new Selector([
+    [10,['']],
+    [4,['North','South','East','West']],
+    [1,['Upper','Lower']]
+  ]);
+
+  var cityModifiers = ['town','ton','ville','burg',' City',' Springs',' Heights',' Town'];
+
+  var citySelector = new Selector([
+    function() { return _this.surname(); },
+    function() { return _this.surname()+cityModifiers.randomElement(); },
+    function() { return _this.surname()+cityModifiers.randomElement(); },
+    function() { return _this.maleName()+cityModifiers.randomElement(); },
+    function() { return _this.femaleName()+cityModifiers.randomElement(); },
+    function() { return "Lake "+_this.surname(); },
+    function() { return "Lake "+_this.maleName(); },
+    function() { return "Lake "+_this.femaleName(); },
+    function() { return "Mount "+_this.surname(); },
+    function() { return "Mount "+_this.maleName(); },
+    function() { return "Mount "+_this.femaleName(); }
+  ]);
+
+  this.city = function() {
+    var cardinalDirection = cardinalDirectionsForCity.select();
+    var city
+      = cardinalDirection + (cardinalDirection == '' ? '' : " ")
+      + citySelector.select();
+    return toTitleCase(city);
+  }
+
   function ipsum_clause() {
     var adjectivePhraseArray = _this.adjectivePhrase();
     var nextDatumOptions = {
