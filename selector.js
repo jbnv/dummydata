@@ -26,7 +26,7 @@ function Selector(content) {
     return this;
   }
 
-  this.select = function() {
+  return function() {
 
     // Pick a selector value at random.
     var selector = Math.floor(Math.random()*_sum);

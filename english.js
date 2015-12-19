@@ -67,7 +67,7 @@ var English = function() {
   var _this = this;
 
   // [adjective phrase, is plural? (default false)]
-  var adjectivePhraseOptions = [
+  this.adjectivePhrase = new Selector([
     function() { return ["the"]; },
     function() { return ["the "+nextDatum("EnglishAdjectives"),_singularOrPlural(0.50)]; },
     function() { return [nextDatum("EnglishCardinalNumbers"),true]; },
@@ -86,11 +86,7 @@ var English = function() {
     function() { return ["few "+nextDatum("EnglishAdjectives"),true]; },
     function() { return [_this.maleName()+"'s",_singularOrPlural(0.50)]; },
     function() { return [_this.femaleName()+"'s",_singularOrPlural(0.50)]; }
-  ];
-
-  this.adjectivePhrase = function() {
-    return adjectivePhraseOptions[Math.floor(adjectivePhraseOptions.length*Math.random())]();
-  }
+  ]);
 
   this.color = function() {
     var baseColor = nextDatum('EnglishColors');
@@ -101,16 +97,11 @@ var English = function() {
     return baseColor;
   }
 
-  this.maleName = function() {
-    var selector = Math.random();
-    if (selector < 0.4) {
-      return nextDatum('EnglishNamePrefixes1')+nextDatum('EnglishNameSuffixes1');
-    } else if (selector < 0.8) {
-      return nextDatum('EnglishNamePrefixes1')+nextDatum('EnglishNameSuffixes2');
-    } else {
-      return nextDatum('EnglishNamePrefixes2')+nextDatum('EnglishNameSuffixes1');
-    }
-  };
+  this.maleName = new Selector([
+    [2,function() {return nextDatum('EnglishNamePrefixes1')+nextDatum('EnglishNameSuffixes1')}],
+    [2,function() {return nextDatum('EnglishNamePrefixes1')+nextDatum('EnglishNameSuffixes2');}],
+    function() {return nextDatum('EnglishNamePrefixes2')+nextDatum('EnglishNameSuffixes1');}
+  ]);
 
   this.femaleName = function() {
     var selector = Math.random();
@@ -132,34 +123,34 @@ var English = function() {
     return this.femaleName()+" "+this.surname();
   };
 
-  var cardinalDirectionsForAddresses = [
+  var cardinalDirectionsForAddresses = new Selector([
     [10,['']],
     [4,['N.','S.','E.','W.']],
     [1,['NW','NE','SW','SE']]
-  ];
+  ]);
+
+  var streetName = new Selector([
+    function() { return nextDatum('EnglishAnimals'); },
+    function() { return _this.color(); },
+    function() { return nextDatum('EnglishOrdinalNumbers'); },
+    function() { return nextDatum('EnglishPlants'); },
+    function() { return _this.maleName(); },
+    function() { return _this.femaleName(); },
+    function() { return _this.surname(); },
+    function() { return _this.maleFullName(); },
+    function() { return _this.femaleFullName(); },
+    function() { return nextDatum('EnglishAdjectives')+' '+nextDatum('EnglishTerrainWords'); },
+    function() { return nextDatum('EnglishTerrainWords')+['side','view'].randomElement(); }
+  ]);
 
   this.streetAddress = function() {
-    var nameFns = [
-      function() { return nextDatum('EnglishAnimals'); },
-      function() { return _this.color(); },
-      function() { return nextDatum('EnglishOrdinalNumbers'); },
-      function() { return nextDatum('EnglishPlants'); },
-      function() { return _this.maleName(); },
-      function() { return _this.femaleName(); },
-      function() { return _this.surname(); },
-      function() { return _this.maleFullName(); },
-      function() { return _this.femaleFullName(); },
-      function() { return nextDatum('EnglishAdjectives')+' '+nextDatum('EnglishTerrainWords'); },
-    ];
     var number = Math.floor(Math.pow(100000,Math.random()));
-    var cardinalDirectionArray = cardinalDirectionsForAddresses.randomWeightedElement();
-    var cardinalDirection = cardinalDirectionArray.randomElement();
-    var streetName = nameFns[_ordinal % nameFns.length]();
+    var cardinalDirection = cardinalDirectionsForAddresses();
     var streetType = nextDatum('EnglishRoadTypes');
     var address
       = "" + number + " "
       + cardinalDirection + (cardinalDirection == '' ? '' : " ")
-      + streetName + " " + streetType;
+      + streetName() + " " + streetType;
     return toTitleCase(address);
   }
 
@@ -186,10 +177,10 @@ var English = function() {
   ]);
 
   this.city = function() {
-    var cardinalDirection = cardinalDirectionsForCity.select();
+    var cardinalDirection = cardinalDirectionsForCity();
     var city
       = cardinalDirection + (cardinalDirection == '' ? '' : " ")
-      + citySelector.select();
+      + citySelector();
     return toTitleCase(city);
   }
 
@@ -210,7 +201,7 @@ var English = function() {
     return nextDatum('EnglishVerbs',{partOfSpeech:'verb','case':tense});
   }
 
-  var ipsum_verb_selectionList = [
+  var ipsum_verb = new Selector([
     [5, function() { return verbSelector('past');}],
     [5, function() {
       var selector1 = [
@@ -227,9 +218,7 @@ var English = function() {
         + verbSelector(selector1[1]);
       return outbound;
     }]
-  ];
-
-  function ipsum_verb() { return ipsum_verb_selectionList.randomWeightedElement()(); }
+  ]);
 
   this.ipsum = function(options) {
     var sentenceCount = options == null ? 1 : (options.count || 1);
