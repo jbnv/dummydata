@@ -1,50 +1,51 @@
-var Greek = function() {
+var Greek = function(dd) {
 
-  downloadLanguageJSON('Greek');
+  var _data = new DummyDataEngine(dd,'Languages','Greek','json');
 
-  var nameBaseSelector = [
-    [3, function() { return nextDatum('GreekStems'); }],
-    [3, function() { return nextDatum('GreekLetters'); }],
-    [1, function() { return nextDatum('GreekNumbers')+nextDatum('GreekStems'); }],
-    [1, function() { return nextDatum('GreekNumbers')+nextDatum('GreekLetters'); }]
-  ];
+  var namePrefixSelector = new Selector([
+    [1, function() { return _data('GreekStems')+"o"; }],
+    [1, function() { return _data('GreekNumbers'); }],
+    [1, function() { return _data('GreekLetters')+"a"; }]
+  ]);
 
-  var maleSuffixes = ['os','es','on'];
+  var nameBaseSelector = new Selector([
+    [3, function() { return _data('GreekStems'); }],
+    [3, function() { return _data('GreekLetters'); }],
+    [1, function() { return namePrefixSelector()+_data('GreekStems'); }],
+    [1, function() { return namePrefixSelector()+_data('GreekLetters'); }]
+  ]);
 
-  this.maleName = function() {
-    var core = nameBaseSelector.randomWeightedElement()()+maleSuffixes.randomElement();
-    return toInitialCase(core);
-  };
+  var maleSuffixes = ['as','os','es','is','us','ys','on','ander'];
 
-  var femaleSuffixes = ['a','e'];
+  var maleNameSelector = function() { return nameBaseSelector()+maleSuffixes.randomElement(); }
 
-  this.femaleName = function() {
-    var core = nameBaseSelector.randomWeightedElement()()+femaleSuffixes.randomElement();
-    return toInitialCase(core);
-  };
+  function maleName() { return toInitialCase(maleNameSelector()); }
 
-  var surnameBase1Selector = [
-    [1, function() { return nextDatum('GreekStems')+"o"; }],
-    [1, function() { return nextDatum('GreekNumbers'); }],
-    [1, function() { return nextDatum('GreekLetters')+"a"; }]
-  ];
+  var femaleSuffixes = ['a','e','o'];
+
+  var femaleNameSelector = new Selector([
+    [19,function() { return nameBaseSelector()+femaleSuffixes.randomElement(); }],
+    function() { return namePrefixSelector()+"meter"; }
+  ]);
+
+  function femaleName() { return toInitialCase(femaleNameSelector()); }
 
   var surnameSuffixes = ['os','es','on'];
 
-  this.surname = function() {
-    core =
-      surnameBase1Selector.randomWeightedElement()()
-      + nextDatum('GreekStems')
-      + surnameSuffixes.randomElement();
-    return toInitialCase(core);
-  };
+  var surnameSelector = function() { return nameBaseSelector()+surnameSuffixes.randomElement(); }
 
-  this.maleFullName = function() {
-    return this.maleName()+" "+this.surname();
-  };
+  function surname() { return toInitialCase(surnameSelector()); }
 
-  this.femaleFullName = function() {
-    return this.femaleName()+" "+this.surname();
-  };
+  function maleFullName() { return maleName()+" "+surname(); };
+
+  function femaleFullName() { return femaleName()+" "+surname(); };
+
+  this.menuItems = [
+    ["Male Name", maleName],
+    ["Female Name", femaleName],
+    ["Surname", surname],
+    ["Male Full Name", maleFullName],
+    ["Female Full Name", femaleFullName]
+  ];
 
 };

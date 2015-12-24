@@ -1,25 +1,29 @@
-var Japanese = function() {
+var Japanese = function(dd) {
 
-  downloadLanguageJSON('Japanese');
+  var _data = new DummyDataEngine(dd,'Languages','Japanese','json');
 
-  this.maleName = function() {
-    return nextDatum('JapaneseMaleNames');
-  };
+  var maleNameSelector = function() { return _data('JapaneseMaleNames'); };
 
-  this.femaleName = function() {
-    return nextDatum('JapaneseFemaleNames');
-  };
+  function maleName() { return toInitialCase(maleNameSelector()); }
 
-  this.surname = function() {
-    return nextDatum('JapaneseSurnamePrefixes')+nextDatum('JapaneseSurnameSuffixes');
-  };
+  var femaleNameSelector = function() { return _data('JapaneseFemaleNames'); };
 
-  this.maleFullName = function() {
-    return this.surname()+" "+this.maleName();
-  };
+  function femaleName() { return toInitialCase(femaleNameSelector()); }
 
-  this.femaleFullName = function() {
-    return this.surname()+" "+this.femaleName();
-  };
+  var surnameSelector = function() { return _data('JapaneseSurnamePrefixes')+_data('JapaneseSurnameSuffixes'); }
+
+  function surname() { return toInitialCase(surnameSelector()); }
+
+  function maleFullName() { return surname()+" "+maleName(); };
+
+  function femaleFullName() { return surname()+" "+femaleName(); };
+
+  this.menuItems = [
+    ["Male Name", maleName],
+    ["Female Name", femaleName],
+    ["Surname", surname],
+    ["Male Full Name", maleFullName],
+    ["Female Full Name", femaleFullName]
+  ];
 
 };

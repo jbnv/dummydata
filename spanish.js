@@ -1,10 +1,10 @@
-var Spanish = function() {
+var Spanish = function(dd) {
 
-  downloadLanguageJSON('Spanish');
+  var _data = new DummyDataEngine(dd,'Languages','Spanish','json');
 
   var _this = this;
 
-  function randomNameSuffix() { return [[3,""],[1,"it"],[1,"in"],[1,"ill"]].randomWeightedElement(); }
+  var nameSuffix = new Selector([[3,""],[1,"it"],[1,"in"],[1,"ill"]]);
 
   function appendSuffix(stem,suffix) {
     if (suffix == null || suffix == "") return stem;
@@ -17,65 +17,63 @@ var Spanish = function() {
     return stem+suffix;
   }
 
+  var placeSelector = new Selector([
+    function() { return _data('SpanishPlaces'); },
+    function() { return "San "+maleName(); },
+    function() { return "Santa "+femaleName(); }
+  ]);
+
   function properNameStem() {
-    var stem = nextDatum('SpanishNameStems',{transform:toInitialCase});
-    var suffix = randomNameSuffix();
-    return appendSuffix(stem,suffix);
+    return appendSuffix(_data('SpanishNameStems'),nameSuffix());
   }
 
   function ordinalNumberAsName() {
-    var stem = nextDatum('SpanishOrdinalNumbers',{transform:toInitialCase});
-    var suffix = randomNameSuffix();
-    return appendSuffix(stem,suffix);
+    return appendSuffix(_data('SpanishOrdinalNumbers'),nameSuffix());
   }
 
-  var maleNameSelector = [
-    [3, function() { return nextDatum('SpanishMaleNames'); }],
+  var maleNameSelector = new Selector([
+    [3, function() { return _data('SpanishMaleNames'); }],
     [3, function() { return properNameStem()+"o"; }],
     [1, function() { return ordinalNumberAsName()+"o"; }]
-  ];
+  ]);
 
-  this.maleName = function() { return maleNameSelector.randomWeightedElement()(); }
+  function maleName() { return toInitialCase(maleNameSelector()); }
 
-  var femaleNameSelector = [
-    [3, function() { return nextDatum('SpanishFemaleNames'); }],
+  var femaleNameSelector = new Selector([
+    [3, function() { return _data('SpanishFemaleNames'); }],
     [3, function() { return properNameStem()+"a"; }],
     [1, function() { return ordinalNumberAsName()+"a"; }]
+  ]);
+
+  function femaleName() { return toInitialCase(femaleNameSelector()); }
+
+  var surnameSuffix = new Selector(["o","a","os","as","es","ez"]);
+
+  var surnameSelector = new Selector([
+    [3, function() { return _data('SpanishSurnames'); }],
+    [3, function() { return toInitialCase(appendSuffix(properNameStem(),surnameSuffix())); }],
+    [1, function() { return toInitialCase(appendSuffix(ordinalNumberAsName(),surnameSuffix())); }],
+    [2, placeSelector],
+    [2, function() { return "de "+_placeSelector(); }]
+  ]);
+
+  var surname = new Selector([
+    [9,surnameSelector],
+    function() { return surnameSelector()+" y "+surnameSelector()}
+  ]);
+
+  function maleFullName() { return maleName()+" "+surname(); };
+
+  function femaleFullName() { return femaleName()+" "+surname(); };
+
+  this.menuItems = [
+    ["Male Name", maleName],
+    ["Female Name", femaleName],
+    ["Surname", surname],
+    ["Male Full Name", maleFullName],
+    ["Female Full Name", femaleFullName],
+    null,
+    ["Place", placeSelector]
   ];
-
-  this.femaleName = function() { return femaleNameSelector.randomWeightedElement()(); }
-
-  var surnameSuffixes = ["o","a","os","as","es","ez"];
-
-  function surnameSuffix() { return surnameSuffixes.randomElement(); }
-
-  var surnameSelector = [
-    [3, function() { return nextDatum('SpanishSurnames'); }],
-    [3, function() { return appendSuffix(properNameStem(),surnameSuffix()); }],
-    [1, function() { return appendSuffix(ordinalNumberAsName(),surnameSuffix()); }],
-    [1, function() { return "San "+_this.maleName(); }],
-    [1, function() { return "Santa "+_this.femaleName(); }],
-    [1, function() { return "de "+nextDatum('SpanishPlaces'); }],
-    [1, function() { return "de San "+_this.maleName(); }],
-    [1, function() { return "de Santa "+_this.femaleName(); }]
-  ];
-
-  var oneSurname = function() { return surnameSelector.randomWeightedElement()(); }
-
-  this.surname = function() {
-    if (Math.random() < 0.9) {
-      return oneSurname();
-    } else {
-      return oneSurname()+" y "+oneSurname();
-    };
-  };
-
-  this.maleFullName = function() {
-    return this.maleName()+" "+this.surname();
-  };
-
-  this.femaleFullName = function() {
-    return this.femaleName()+" "+this.surname();
-  };
 
 };

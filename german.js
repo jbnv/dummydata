@@ -1,25 +1,29 @@
-var German = function() {
+var German = function(dd) {
 
-  downloadLanguageJSON('German');
+  var _data = new DummyDataEngine(dd,'Languages','German','json');
 
-  this.maleName = function() {
-    return nextDatum('GermanMaleNames');
-  };
+  var maleNameSelector = function() { return _data('GermanMaleNames'); };
 
-  this.femaleName = function() {
-    return nextDatum('GermanFemaleNames');
-  };
+  function maleName() { return toInitialCase(maleNameSelector()); }
 
-  this.surname = function() {
-    return nextDatum('GermanSurnamePrefixes')+nextDatum('GermanSurnameSuffixes');
-  };
+  var femaleNameSelector = function() { return _data('GermanFemaleNames'); };
 
-  this.maleFullName = function() {
-    return this.maleName()+" "+this.surname();
-  };
+  function femaleName() { return toInitialCase(femaleNameSelector()); }
 
-  this.femaleFullName = function() {
-    return this.femaleName()+" "+this.surname();
-  };
+  var surnameSelector = function() { return _data('GermanSurnamePrefixes')+_data('GermanSurnameSuffixes'); }
+
+  function surname() { return toInitialCase(surnameSelector()); }
+
+  function maleFullName() { return maleName()+" "+surname(); };
+
+  function femaleFullName() { return femaleName()+" "+surname(); };
+
+  this.menuItems = [
+    ["Male Name", maleName],
+    ["Female Name", femaleName],
+    ["Surname", surname],
+    ["Male Full Name", maleFullName],
+    ["Female Full Name", femaleFullName]
+  ];
 
 };
