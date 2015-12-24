@@ -1,12 +1,11 @@
 console.log('data.js BEGIN');
 
 function GlobalOrdinal(seed) {
-  if (seed) {
-    localStorage["ordinal"] = seed;
-    return seed;
-  }
-  if (!localStorage["ordinal"]) localStorage["ordinal"] = seed || 0;
-  return localStorage["ordinal"]++;
+  var value = parseFloat(localStorage["ordinal"]);
+  if (seed) value = parseFloat(seed);
+  if (Number.isNaN(value)) value = seed || 0;
+  localStorage["ordinal"] = ++value;
+  return value;
 }
 
 function DummyData() {
@@ -81,7 +80,7 @@ function DummyData() {
 
   function createMenuItem(item) {
     if (item == null) {
-      createSeparator(); 
+      createSeparator();
       return;
     }
     // assumes item == [title, function, options]
@@ -94,7 +93,7 @@ function DummyData() {
   var universal = new Universal()
 
   this.resetMenu = function() {
-    
+
     engine = _languages[localStorage["language"]];
     if (engine) {
       engine.menuItems.forEach(createMenuItem);
