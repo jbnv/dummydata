@@ -13,7 +13,7 @@
       "moment.js","q.js","selector.js",
       "universal.js","data.js",
       "english.js","german.js","greek.js","japanese.js","spanish.js",
-      "core.js","script.js"
+      "core.js"
     ]
   },
   "options_page": "options.html"

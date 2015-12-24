@@ -17,8 +17,26 @@ function DummyData() {
   if (!localStorage["language"]) localStorage["language"] = "English";
   if (!localStorage["country"]) localStorage["country"] = "UnitedStates";
 
-  this.addLanguage = function(name,obj) {
-    _languages[name] = obj
+  // p1: object defining the set of languages or name of language
+  // p2: (if p1 == name of language) language object
+  this.addLanguage = function(p1,p2) {
+    if (p1 == null) return;
+    if (typeof p1 === 'object') {
+        _languages = p1;
+        return;
+    }
+    _languages[p1] = p2;
+  }
+
+  // p1: object defining the set of languages or name of language
+  // p2: (if p1 == name of language) language object
+  this.addCountry = function(p1,p2) {
+    if (p1 == null) return;
+    if (typeof p1 === 'object') {
+        _countries = p1;
+        return;
+    }
+    _countries[p1] = p2;
   }
 
   this.languageName = function(newLanguage) {
