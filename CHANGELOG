@@ -1,3 +1,6 @@
+4.0 (2015-12-19)
+- data.js to function DummyData().
+
 3.9 (2015-12-17)
 - Selector() object.
 - City option.

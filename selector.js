@@ -15,6 +15,7 @@ function Selector(content) {
     });
   }
 
+  // call with (fn) or (weight,fn)
   this.add = function(p1,p2) {
     if (_isFunction(p1)) {
       _content.push([1,p1]);
@@ -50,6 +51,3 @@ function _isFunction(functionToCheck) {
  var getType = {};
  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
-
-// call with (fn) or (weight,fn)
-Selector.prototype
