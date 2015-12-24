@@ -80,7 +80,10 @@ function DummyData() {
   }
 
   function createMenuItem(item) {
-    if (item == null) { return; }
+    if (item == null) {
+      createSeparator(); 
+      return;
+    }
     // assumes item == [title, function, options]
     var title = item[0];
     var fn = item[1];
