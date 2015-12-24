@@ -1,22 +1,24 @@
-$(function() {
+console.log("BEGIN options setup");
 
-  console.log("BEGIN options setup");
+$languages = $("#languages");
+$countries = $("#countries");
+$ordinal = $("#ordinal");
 
-  $languages = $("#languages");
+$languages.val(localStorage["language"] || "English");
+$countries.val(localStorage["country"] || "UnitedStates");
+$ordinal.val(localStorage["ordinal"] || 0);
 
-  $("#languages option").remove();
+$("#options-form").submit(function() {
 
-  $languages.change(function() {
-    var languageName = $(this).val();
-    //console.log("_language <= ",languageName);
-    _language = languageName;
-    localStorage["language"] = languageName;
-  });
+  localStorage["language"] = $languages.val();
+  localStorage["country"] = $countries.val();
 
-  for (var l in _languages) {
-    $languages.append("<option>"+l+"</option>");
-  }
-
-  console.log("END options setup");
+  var seed = $ordinal.val();
+  var value = parseFloat(localStorage["ordinal"]);
+  if (seed) value = parseFloat(seed);
+  if (Number.isNaN(value)) value = seed || 0;
+  localStorage["ordinal"] = value;
 
 });
+
+console.log("END options setup");

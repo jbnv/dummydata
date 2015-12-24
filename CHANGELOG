@@ -1,11 +1,12 @@
-4.0 (2015-12-19)
+4.0 (2015-12-24)
 - data.js to function DummyData().
+- Complete implementation of options page.
 
 3.9 (2015-12-17)
 - Selector() object.
 - City option.
 
-3.8 (2015-12-16) INCOMPLETE
+3.8 (2015-12-16)
 - Create options page.
 - Adjust code for changes to WordLists repository.
 
