@@ -94,6 +94,8 @@ function DummyData() {
 
   this.resetMenu = function() {
 
+    chrome.contextMenus.removeAll();
+    
     var menuSpec = [];
 
     engine = _languages[localStorage["language"]];
@@ -113,7 +115,7 @@ function DummyData() {
     }
 
     Array.prototype.push.apply(menuSpec, universal.menuItems);
-    
+
     menuSpec.forEach(createMenuItem);
     return menuSpec;
   }
