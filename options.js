@@ -17,7 +17,8 @@ function populateDemo() {
   $("#demo-container").html(tableElem);
 }
 
-function onFormSubmit() {
+function onFormSubmit(e) {
+  e.preventDefault();
 
   localStorage["language"] = $languages.val();
   localStorage["country"] = $countries.val();
