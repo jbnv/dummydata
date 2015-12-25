@@ -94,25 +94,28 @@ function DummyData() {
 
   this.resetMenu = function() {
 
+    var menuSpec = [];
+
     engine = _languages[localStorage["language"]];
     if (engine) {
-      engine.menuItems.forEach(createMenuItem);
+      Array.prototype.push.apply(menuSpec, engine.menuItems);
+      menuSpec.push(null); // separator
     } else {
       console.log("_languages: No engine for "+localStorage["language"]+".");
     }
 
-    createSeparator();
-
     engine = _countries[localStorage["country"]];
     if (engine) {
-      engine.menuItems.forEach(createMenuItem);
+      Array.prototype.push.apply(menuSpec, engine.menuItems);
+      menuSpec.push(null); // separator
     } else {
       console.log("_countries: No engine for "+localStorage["country"]+".");
     }
 
-    createSeparator();
-
-    universal.menuItems.forEach(createMenuItem);
+    Array.prototype.push.apply(menuSpec, universal.menuItems);
+    
+    menuSpec.forEach(createMenuItem);
+    return menuSpec;
   }
 };
 

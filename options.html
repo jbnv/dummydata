@@ -6,6 +6,19 @@
 <link href="lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 <script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- These scripts must match those specified in the manifest.json. -->
+<script type="text/javascript" src="moment.js"></script>
+<script type="text/javascript" src="q.js"></script>
+<script type="text/javascript" src="selector.js"></script>
+<script type="text/javascript" src="universal.js"></script>
+<script type="text/javascript" src="data.js"></script>
+<script type="text/javascript" src="english.js"></script>
+<script type="text/javascript" src="german.js"></script>
+<script type="text/javascript" src="greek.js"></script>
+<script type="text/javascript" src="japanese.js"></script>
+<script type="text/javascript" src="spanish.js"></script>
+<script type="text/javascript" src="core.js"></script>
+<script type="text/javascript" src="options.js"></script>
 </head>
 
 <body>
@@ -51,19 +64,12 @@
  </div>
 </form>
 
-<h2>Sandbox</h2>
-<p>Use the textarea below to test the generator.</p>
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <form class="form">
-        <textarea id="sandbox" class="form-control"></textarea>
-      </form>
-    </div>
-  </div>
+<h2>Demo</h2>
+<p>The list below shows the menu options with the current language and country, and samples of the values
+  that each item produces.</p>
+<div id="demo-container" class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
 </div>
 
-<script type="text/javascript" src="options.js"></script>
 </body>
 
 </html>

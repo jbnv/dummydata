@@ -171,10 +171,10 @@ var English = function(dd) {
   }
 
   var ipsum_noun_selector = new Selector([
-    function() { return _data('EnglishAnimals',_dataOptions); },
-    function() { return _data('EnglishPlants',_dataOptions); },
-    function() { return _data('EnglishRoadTypes',_dataOptions); },
-    function() { return _data('EnglishSubstances',_dataOptions); }
+    function() { return _data('EnglishAnimals'); }, //TEMP _dataOptions removed from each
+    function() { return _data('EnglishPlants'); },
+    function() { return _data('EnglishRoadTypes'); },
+    function() { return _data('EnglishSubstances'); }
   ]);
 
   function ipsum_clause() {
