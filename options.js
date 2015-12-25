@@ -1,4 +1,4 @@
-function OptionsViewModel() {
+function viewModel() {
 
   var _this = this;
 
@@ -32,33 +32,26 @@ function OptionsViewModel() {
     },
   });
 
-  function observableArrayWithSpec(spec){
-      var oa = ko.observableArray();
-      spec.forEach(function (item) {
-        if (item.constructor === Array) {
-          outbound = {value: item[0], name: item[1]};
-        } else {
-          outbound = {value: item, name: item};
-        }
-        oa.push(outbound);
-      });
-      return oa;
-  }
+  this.languageOptions = ko.observableArray(["English","German","Greek","Japanese","Spanish"]);
 
-  this.languageOptions = observableArrayWithSpec(["English","German","Greek","Japanese","Spanish"]);
+  this.countryOptions = ko.observableArray();
 
-  this.countryOptions = observableArrayWithSpec([
+  // Populate the countryOptions observable.
+  [
     ["UnitedStates","United States (USA) / Canada"],
     "Australia",
     "Mexico",
     ["UnitedKingdom","United Kingdom (UK)"]
-  ]);
-
+  ].forEach(function (item) {
+    if (item.constructor === Array) {
+      outbound = {value: item[0], name: item[1]};
+    } else {
+      outbound = {value: item, name: item};
+    }
+    _this.countryOptions.push(outbound);
+  });
 }
 
-var vm;
-
 $(function() {
-  vm = new OptionsViewModel();
-  ko.applyBindings(vm);
+  ko.applyBindings(new viewModel());
 });
