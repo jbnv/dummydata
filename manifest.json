@@ -4,18 +4,11 @@
   "name": "Dummy Data",
   "author": "Jay Bienvenu",
   "description": "Insert dummy data into form elements with a few clicks.",
-  "version": "4.1",
+  "version": "4.2",
 
   "permissions": ["activeTab","contextMenus","downloads"],
   "background": {
-    "scripts": [
-      "lib/jquery-1.11.3.min.js","lib/bootstrap/js/bootstrap.min.js",
-      "moment.js","q.js","selector.js",
-      "universal.js","data.js",
-      "english.js","german.js","greek.js","japanese.js","spanish.js",
-      "united-states.js","canada.js",
-      "core.js"
-    ]
+    "scripts": ["/dist/chrome-extension-background.js"]
   },
   "options_page": "options.html"
 }

@@ -1,5 +1,10 @@
+4.2 (2015-12-26)
+- New build engine with Gulp. Will allow us to use this project to build things besides the Chrome extension.
+- Build consolidated scripts for both the Chrome extension itself and its option page. This will eliminate the need to specify all of the language and country engines in manifest.json and options.html.
+- Move the component scripts into subfolders for organization.
+
 4.1 (2015-12-25)
-- Implement United States.
+- Implement United States and Canada engines.
 
 4.0 (2015-12-24)
 - data.js to function DummyData().
