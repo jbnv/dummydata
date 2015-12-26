@@ -9,8 +9,8 @@ _data.addLanguage({
 });
 
 _data.addCountry({
-  'UnitedStates': null, //FUTURE
-  'Canada': null //FUTURE
+  'UnitedStates': new UnitedStates(),
+  'Canada': new Canada(),
 });
 
 _data.resetMenu();
