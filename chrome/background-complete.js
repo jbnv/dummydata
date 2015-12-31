@@ -3169,6 +3169,8 @@ function rebuildMenu() {
 
   menu.forEach(createContextMenuItem);
 
+  return menu;
+
 }
 
 rebuildMenu();

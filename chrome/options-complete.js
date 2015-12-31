@@ -3169,6 +3169,8 @@ function rebuildMenu() {
 
   menu.forEach(createContextMenuItem);
 
+  return menu;
+
 }
 
 rebuildMenu();
@@ -3176,7 +3178,7 @@ rebuildMenu();
 
 function populateDemo() {
 
-  var menu = _data.resetMenu();
+  var menu = rebuildMenu();
   // menu should be an array, all elements of which should be [title,function] or null.
 
   var tableElem = $("<table class=\"table\"></table>");
@@ -3224,6 +3226,8 @@ $(function() {
   $("#options-form").submit(onFormSubmit);
 
   populateDemo();
+
+  $("#main").show();
 
   console.log("END options setup");
 

@@ -1,3 +1,6 @@
+4.5 (2015-12-31) INCOMPLETE
+- Clean up options page with Bootstrap.
+
 4.4 (2015-12-31)
 - Refactor a context API between the core functionality and specific instantiations (e.g. Chrome extension).
 

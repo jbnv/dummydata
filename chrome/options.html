@@ -8,6 +8,45 @@
 
 <body>
 
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Dummy Data</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a role="button" id="main-button" data-toggle="collapse" href="#main" aria-expanded="true" aria-controls="main">Options</a></li>
+          <li><a role="button" id="custom-button" data-toggle="collapse" href="#custom" aria-expanded="false" aria-controls="custom">Custom Definitions</a></li>
+          <li><a role="button" id="demo-button" data-toggle="collapse" href="#demo" aria-expanded="false" aria-controls="demo">Demo</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              Links <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="https://github.com/jbnv/dummydata">Repository</a></li>
+              <li><a href="https://github.com/jbnv/dummydata/wiki">Wiki</a></li>
+              <li><a href="https://github.com/jbnv/dummydata/issues">Issues</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="https://github.com/jbnv/WordLists">WordLists</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+<div class="collapse" id="main">
 <h1>Options for Dummy Data</h1>
 
 <form class="form-horizontal" id="options-form">
@@ -48,11 +87,17 @@
    </div>
  </div>
 </form>
+</div>
 
-<h2>Demo</h2>
-<p>The list below shows the menu options with the current language and country, and samples of the values
-  that each item produces.</p>
-<div id="demo-container" class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+<div class="collapse" id="custom">
+</div>
+
+<div class="collapse" id="demo">
+  <h1>Demo</h2>
+  <p>The list below shows the menu options with the current language and country, and samples of the values
+    that each item produces.</p>
+  <div id="demo-container" class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+  </div>
 </div>
 
 </body>
