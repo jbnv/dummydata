@@ -4,7 +4,7 @@
   "name": "Dummy Data",
   "author": "Jay Bienvenu",
   "description": "Insert dummy data into form elements with a few clicks.",
-  "version": "4.2",
+  "version": "4.3",
 
   "permissions": ["activeTab","contextMenus","downloads"],
   "background": {

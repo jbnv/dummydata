@@ -1,3 +1,6 @@
+4.3 (2015-12-31)
+- Add alphanumeric string generator.
+
 4.2 (2015-12-26)
 - New build engine with Gulp. Will allow us to use this project to build things besides the Chrome extension.
 - Build consolidated scripts for both the Chrome extension itself and its option page. This will eliminate the need to specify all of the language and country engines in manifest.json and options.html.

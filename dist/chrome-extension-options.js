@@ -2158,8 +2158,24 @@ var Universal = function(dd) {
     };
   }
 
+  var alphanumerics = "0123456789abcdefghijklmnpqrstuvwxyz";
+
+  function alphanumeric(options) {
+    if (options == null) options = {};
+    if (!options.minlength) options.minlength = 5;
+    if (!options.maxlength) options.maxlength = 12;
+    if (!options.transform) options.transform = function(x) { return x; };
+    var length = Math.pow(options.maxlength-options.minlength,Math.random())+options.minlength;
+    var outbound = "";
+    for (var i = 0; i < length; i++) {
+      outbound += alphanumerics.charAt(alphanumerics.length*Math.random());
+    }
+    return outbound;
+  }
+
   this.menuItems = [
     ["Number",number],
+    ["Alphanumeric String",alphanumeric],
     ["0##-####",phoneNumber({format:"0##-####"})],
     ["###-0##-####",phoneNumber({format:"###-0##-####"})],
     null,
