@@ -1,3 +1,4 @@
+
 function populateDemo() {
 
   var menu = _data.resetMenu();

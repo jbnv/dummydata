@@ -1,10 +1,14 @@
 console.log('data.js BEGIN');
 
+// Seed context.
+if (!_context("language")()) _context("language")("English");
+if (!_context("country")()) _context("country")("UnitedStates");
+
 function GlobalOrdinal(seed) {
-  var value = parseFloat(localStorage["ordinal"]);
+  var value = parseFloat(_context("ordinal")());
   if (seed) value = parseFloat(seed);
   if (Number.isNaN(value)) value = seed || 0;
-  localStorage["ordinal"] = ++value;
+  _context("ordinal")(++value);
   return value;
 }
 
@@ -12,9 +16,6 @@ function DummyData() {
 
   var _languages = {};
   var _countries = {};
-
-  if (!localStorage["language"]) localStorage["language"] = "English";
-  if (!localStorage["country"]) localStorage["country"] = "UnitedStates";
 
   // p1: object defining the set of languages or name of language
   // p2: (if p1 == name of language) language object
@@ -40,20 +41,20 @@ function DummyData() {
 
   this.languageName = function(newLanguage) {
     if (newLanguage) {
-      localStorage["language"] =  newLanguage;
+      _context("language")(newLanguage);
       this.resetMenu();
       return newLanguage;
     }
-    return localStorage["language"];
+    return _context("language")();
   }
 
   this.countryName = function(newCountry) {
     if (newCountry) {
-      localStorage["country"] =  newCountry;
+      _context("country")(newCountry);
       this.resetMenu();
       return newCountry;
     }
-    return localStorage["country"];
+    return _context("country")();
   }
 
   this.language = function(name) {
@@ -64,59 +65,32 @@ function DummyData() {
     return _countries[name || this.countryName()];
   }
 
-  function createSeparator() { chrome.contextMenus.create({"type":"separator","contexts":["editable"]}); }
-
-  function _insert(generatorFn,options) {
-    return function(info, tab) {
-      if (generatorFn == null) {
-        alert ("Generator function is not defined.");
-        return;
-      }
-      var value = generatorFn(options);
-      var script = 'var form = document.activeElement;form.value = (form.value + "' + value + '");';
-      chrome.tabs.executeScript({code : script});
-    }
-  }
-
-  function createMenuItem(item) {
-    if (item == null) {
-      createSeparator();
-      return;
-    }
-    // assumes item == [title, function, options]
-    var title = item[0];
-    var fn = item[1];
-    var options = item.length >= 2 ? item[2] : null;
-    chrome.contextMenus.create({"title": title, "contexts":["editable"], "onclick": _insert(fn,options)});
-  }
-
   var universal = new Universal()
+
+  var _this = this;
 
   this.resetMenu = function() {
 
-    chrome.contextMenus.removeAll();
-    
     var menuSpec = [];
 
-    engine = _languages[localStorage["language"]];
+    engine = _this.language();
     if (engine) {
       Array.prototype.push.apply(menuSpec, engine.menuItems);
       menuSpec.push(null); // separator
     } else {
-      console.log("_languages: No engine for "+localStorage["language"]+".");
+      console.log("_languages: No engine for "+_this.languageName()+".");
     }
 
-    engine = _countries[localStorage["country"]];
+    engine = _this.country();
     if (engine) {
       Array.prototype.push.apply(menuSpec, engine.menuItems);
       menuSpec.push(null); // separator
     } else {
-      console.log("_countries: No engine for "+localStorage["country"]+".");
+      console.log("_countries: No engine for "+_this.countryName()+".");
     }
 
     Array.prototype.push.apply(menuSpec, universal.menuItems);
 
-    menuSpec.forEach(createMenuItem);
     return menuSpec;
   }
 };

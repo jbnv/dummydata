@@ -18,29 +18,37 @@ var coreFiles = [
   "./core/core.js"
 ];
 
-var backgroundFiles = [];
-var optionsFiles = [];
-coreFiles.forEach(function(item) {
-  backgroundFiles.push(item);
-  optionsFiles.push(item);
-});
-backgroundFiles.push("./background/*.js");
-optionsFiles.push("./options/*.js");
-
 gulp.task('chrome-extension-background-script', function() {
-  gulp.src(backgroundFiles)
-    .pipe(concat('chrome-extension-background.js'))
+
+  var files = ["./chrome/context.js"];
+  Array.prototype.push.apply(files,coreFiles);
+  files.push("./chrome/background.js");
+
+  gulp.src(files)
+    .pipe(concat('background-complete.js'))
     //.pipe(uglify())
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./chrome/'));
 });
 
 gulp.task('chrome-extension-options-script', function() {
-  gulp.src(optionsFiles)
-    .pipe(concat('chrome-extension-options.js'))
+
+  var files = ["./chrome/context.js"];
+  Array.prototype.push.apply(files,coreFiles);
+  files.push("./chrome/background.js");
+  files.push("./chrome/options.js");
+
+  gulp.src(files)
+    .pipe(concat('options-complete.js'))
     //.pipe(uglify())
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./chrome/'));
+
+  gulp.src(['./lib/bootstrap/css/bootstrap.min.css','./lib/bootstrap/css/bootstrap-theme.min.css'])
+    .pipe(concat('options.css'))
+    //.pipe(uglify())
+    .pipe(gulp.dest('./chrome/'));
+
 });
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('chrome-extension-background-script', 'chrome-extension-options-script');
+    gulp.start('chrome-extension-background-script','chrome-extension-options-script');
 });

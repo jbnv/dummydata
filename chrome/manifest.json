@@ -4,11 +4,11 @@
   "name": "Dummy Data",
   "author": "Jay Bienvenu",
   "description": "Insert dummy data into form elements with a few clicks.",
-  "version": "4.3",
+  "version": "4.4.1",
 
   "permissions": ["activeTab","contextMenus","downloads"],
   "background": {
-    "scripts": ["/dist/chrome-extension-background.js"]
+    "scripts": ["background-complete.js"]
   },
   "options_page": "options.html"
 }

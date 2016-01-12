@@ -23,8 +23,13 @@ var Spanish = function(dd) {
     function() { return "Santa "+femaleName(); }
   ]);
 
+  var nameStemSelector = new Selector([
+    function() { return _data('SpanishNameStems'); },
+    function() { return _data('SpanishNamePrefixes')+_data('SpanishNameSuffixes'); }
+  ]);
+
   function properNameStem() {
-    return appendSuffix(_data('SpanishNameStems'),nameSuffix());
+    return appendSuffix(nameStemSelector(),nameSuffix());
   }
 
   function ordinalNumberAsName() {
@@ -32,7 +37,7 @@ var Spanish = function(dd) {
   }
 
   var maleNameSelector = new Selector([
-    [3, function() { return _data('SpanishMaleNames'); }],
+    [1, function() { return _data('SpanishMaleNames'); }],
     [3, function() { return properNameStem()+"o"; }],
     [1, function() { return ordinalNumberAsName()+"o"; }]
   ]);
@@ -54,7 +59,7 @@ var Spanish = function(dd) {
     [3, function() { return toInitialCase(appendSuffix(properNameStem(),surnameSuffix())); }],
     [1, function() { return toInitialCase(appendSuffix(ordinalNumberAsName(),surnameSuffix())); }],
     [2, placeSelector],
-    [2, function() { return "de "+_placeSelector(); }]
+    [2, function() { return "de "+placeSelector(); }]
   ]);
 
   var surname = new Selector([
