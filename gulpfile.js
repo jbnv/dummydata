@@ -18,6 +18,18 @@ var coreFiles = [
   "./core/core.js"
 ];
 
+gulp.task('server', function() {
+
+  var files = [];
+  Array.prototype.push.apply(files,coreFiles);
+  files.push("./server/server.js");
+
+  gulp.src(files)
+    .pipe(concat('server.js'))
+    //.pipe(uglify())
+    .pipe(gulp.dest('.'));
+});
+
 gulp.task('chrome-extension-background-script', function() {
 
   var files = ["./chrome/context.js"];
