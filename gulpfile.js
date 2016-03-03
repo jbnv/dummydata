@@ -20,7 +20,7 @@ var coreFiles = [
 
 gulp.task('server', function() {
 
-  var files = [];
+  var files = ["./server/context.js"];
   Array.prototype.push.apply(files,coreFiles);
   files.push("./server/server.js");
 

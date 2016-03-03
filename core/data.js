@@ -1,8 +1,10 @@
 console.log('data.js BEGIN');
 
 // Seed context.
-if (!_context("language")()) _context("language")("English");
-if (!_context("country")()) _context("country")("UnitedStates");
+if (_context) {
+  if (!_context("language")()) _context("language")("English");
+  if (!_context("country")()) _context("country")("UnitedStates");
+}
 
 function GlobalOrdinal(seed) {
   var value = parseFloat(_context("ordinal")());
