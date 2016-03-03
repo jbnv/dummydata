@@ -1,0 +1,8 @@
+{
+  "name": "Dummy Data",
+  "description": "A service that generates various forms of fake data.",
+  "repository": "https://github.com/jbnv/dummydata",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["dummydata","data generation"],
+  "image": "heroku/nodejs"
+}
