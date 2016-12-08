@@ -219,6 +219,21 @@ var English = function(dd) {
     return sentences.join(" ");
   }
 
+  var businessNameSelector = new Selector([
+    function() { return surname()+" & "+surname(); },
+    function() { return surname()+" & Associates"; },
+    function() { return surname()+" & Company"; },
+    function() { return surname()+" & Son"; },
+    function() { return surname()+", "+surname()+" & Associates"; },
+    function() { return surname()+" Industries"; },
+    function() { return surname()+" LLC"; },
+    function() { return surname()+" "+surname()+" LLC"; },
+    function() { return surname()+", Incorporated"; },
+    function() { return surname()+" "+surname()+", Incorporated"; }
+    // function() { return [color] [noun]" Company"; },
+    // function() { return [color] [noun]" Industries"; },
+  ]);
+
   this.menuItems = [
     ["Male Name", maleName],
     ["Female Name", femaleName],
@@ -229,11 +244,11 @@ var English = function(dd) {
     ["Color", color],
     ["Street Address",streetAddress],
     ["City",city],
+    ["Business Name",businessNameSelector],
     null,
     ["Ipsum 1 sentence",ipsum],
     ["Ipsum 3 sentences",ipsum,{count:3}],
     ["Ipsum 5 sentences",ipsum,{count:5}]
   ];
-
 
 }

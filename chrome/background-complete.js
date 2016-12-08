@@ -2147,6 +2147,16 @@ var Universal = function(dd) {
     return moment().subtract(Math.pow(365.25*3,Math.random()),'days').format("YYYY-MM-DD");
   }
 
+  // childBirthDate: Pick a date up to eighteen years before today's date.
+  function childBirthDate() {
+    return moment().subtract(Math.pow(365.25*18,Math.random()),'days').format("YYYY-MM-DD");
+  }
+
+  // adultBirthDate: Pick a date 18-68 years before today's date.
+  function adultBirthDate() {
+    return moment().subtract(18,'years').subtract(Math.pow(365.25*50,Math.random()),'days').format("YYYY-MM-DD");
+  }
+
   // laterDate: Pick a date up to three years after today's date.
   function laterDate() {
     return moment().add(Math.pow(365.25*3,Math.random()),'days').format("YYYY-MM-DD");
@@ -2192,6 +2202,8 @@ var Universal = function(dd) {
     ["Today",today],
     ["Earlier Date",earlierDate],
     ["Later Date",laterDate],
+    ["Birth Date (Child)",childBirthDate],
+    ["Birth Date (Adult)",adultBirthDate],
   ];
 
 }
@@ -2739,6 +2751,21 @@ var English = function(dd) {
     return sentences.join(" ");
   }
 
+  var businessNameSelector = new Selector([
+    function() { return surname()+" & "+surname(); },
+    function() { return surname()+" & Associates"; },
+    function() { return surname()+" & Company"; },
+    function() { return surname()+" & Son"; },
+    function() { return surname()+", "+surname()+" & Associates"; },
+    function() { return surname()+" Industries"; },
+    function() { return surname()+" LLC"; },
+    function() { return surname()+" "+surname()+" LLC"; },
+    function() { return surname()+", Incorporated"; },
+    function() { return surname()+" "+surname()+", Incorporated"; }
+    // function() { return [color] [noun]" Company"; },
+    // function() { return [color] [noun]" Industries"; },
+  ]);
+
   this.menuItems = [
     ["Male Name", maleName],
     ["Female Name", femaleName],
@@ -2749,12 +2776,12 @@ var English = function(dd) {
     ["Color", color],
     ["Street Address",streetAddress],
     ["City",city],
+    ["Business Name",businessNameSelector],
     null,
     ["Ipsum 1 sentence",ipsum],
     ["Ipsum 3 sentences",ipsum,{count:3}],
     ["Ipsum 5 sentences",ipsum,{count:5}]
   ];
-
 
 }
 

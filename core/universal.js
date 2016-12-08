@@ -15,6 +15,16 @@ var Universal = function(dd) {
     return moment().subtract(Math.pow(365.25*3,Math.random()),'days').format("YYYY-MM-DD");
   }
 
+  // childBirthDate: Pick a date up to eighteen years before today's date.
+  function childBirthDate() {
+    return moment().subtract(Math.pow(365.25*18,Math.random()),'days').format("YYYY-MM-DD");
+  }
+
+  // adultBirthDate: Pick a date 18-68 years before today's date.
+  function adultBirthDate() {
+    return moment().subtract(18,'years').subtract(Math.pow(365.25*50,Math.random()),'days').format("YYYY-MM-DD");
+  }
+
   // laterDate: Pick a date up to three years after today's date.
   function laterDate() {
     return moment().add(Math.pow(365.25*3,Math.random()),'days').format("YYYY-MM-DD");
@@ -60,6 +70,8 @@ var Universal = function(dd) {
     ["Today",today],
     ["Earlier Date",earlierDate],
     ["Later Date",laterDate],
+    ["Birth Date (Child)",childBirthDate],
+    ["Birth Date (Adult)",adultBirthDate],
   ];
 
 }
