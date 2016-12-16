@@ -46,6 +46,14 @@ var Universal = function(dd) {
     };
   }
 
+  function emailAddress() {
+    result =        
+      alphanumeric({minlength:3,maxlength:12})
+      + "@" + alphanumeric({minlength:5,maxlength:12})
+      + "." + new Selector(["com","net","org","us"])();
+    return result;
+  }
+
   var alphanumerics = "0123456789abcdefghijklmnpqrstuvwxyz";
 
   function alphanumeric(options) {
@@ -66,6 +74,7 @@ var Universal = function(dd) {
     ["Alphanumeric String",alphanumeric],
     ["0##-####",phoneNumber({format:"0##-####"})],
     ["###-0##-####",phoneNumber({format:"###-0##-####"})],
+    ["Email Address",emailAddress],
     null,
     ["Today",today],
     ["Earlier Date",earlierDate],
