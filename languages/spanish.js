@@ -36,16 +36,45 @@ var Spanish = function(dd) {
     return appendSuffix(_data('SpanishOrdinalNumbers'),nameSuffix());
   }
 
+  var firstConsonant = rand(
+    "","b","br","bl","c","ch","d","f","fl","fr","g","h","j","l",
+    "m","n","p","pr","qu","r","s","t","v"
+  );
+
+  var firstVowel = rand("a","e","i","o","u");
+
+  var secondConsonant = rand(
+    "","b","br","bl","c","ch","d","f","fl","fr","g","h","j","l","m",
+    "n","nc","nch","ng","p","pr","qu","r","s","t","v"
+  );
+
+  var secondVowel = rand("","el","i");
+
+  function generatedNameStem() {
+    var result = "".concat( firstConsonant(),firstVowel(),secondConsonant(),secondVowel() );
+    return result;
+  }
+
   var maleNameSelector = new Selector([
-    [1, function() { return _data('SpanishMaleNames'); }],
+    [3, function() { return _data('SpanishMaleNames'); }],
+    function() { return generatedNameStem()+"o"; },
     [3, function() { return properNameStem()+"o"; }],
-    [1, function() { return ordinalNumberAsName()+"o"; }]
+    [1, function() { return ordinalNumberAsName()+"o"; }],
+    [1, function() {
+      var result = "".concat( firstConsonant(),firstVowel(),secondConsonant(),"el" );
+      return result;
+    }],
+    [1, function() {
+      var result = "".concat( firstConsonant(),firstVowel(),secondConsonant(),"iel" );
+      return result;
+    }]
   ]);
 
   function maleName() { return toInitialCase(maleNameSelector()); }
 
   var femaleNameSelector = new Selector([
     [3, function() { return _data('SpanishFemaleNames'); }],
+    function() { return generatedNameStem()+"a"; },
     [3, function() { return properNameStem()+"a"; }],
     [1, function() { return ordinalNumberAsName()+"a"; }]
   ]);
