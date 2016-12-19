@@ -222,19 +222,19 @@ var English = function(dd) {
     return sentences.join(" ");
   }
 
+  var businessNameSuffixes = [ " Company", " Industries", " LLC", ", Incorporated" ];
+
   var businessNameSelector = new Selector([
-    function() { return surname()+" & "+surname(); },
-    function() { return surname()+" & Associates"; },
-    function() { return surname()+" & Company"; },
-    function() { return surname()+" & Son"; },
+    function() { return surname()+" & "+[surname(),"Associates","Company","Son","Sons"].randomElement(); },
+    function() { return maleFullName()+" & "+["Associates","Company","Son","Sons"].randomElement(); },
+    function() { return femaleFullName()+" & "+["Associates","Company","Son","Sons"].randomElement(); },
     function() { return surname()+", "+surname()+" & Associates"; },
-    function() { return surname()+" Industries"; },
-    function() { return surname()+" LLC"; },
-    function() { return surname()+" "+surname()+" LLC"; },
-    function() { return surname()+", Incorporated"; },
-    function() { return surname()+" "+surname()+", Incorporated"; }
-    // function() { return [color] [noun]" Company"; },
-    // function() { return [color] [noun]" Industries"; },
+    function() { return surname()+", "+surname()+" & "+surname(); },
+    function() { return surname()+businessNameSuffixes.randomElement(); },
+    function() { return maleFullName()+businessNameSuffixes.randomElement(); },
+    function() { return femaleFullName()+businessNameSuffixes.randomElement(); },
+    function() { return surname()+" "+surname()+businessNameSuffixes.randomElement(); },
+    function() { return color()+" "+ipsum_noun_selector()+businessNameSuffixes.randomElement(); }
   ]);
 
   this.menuItems = [
