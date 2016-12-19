@@ -95,11 +95,14 @@ var English = function(dd) {
     return maleName()+_data('EnglishFeminineSuffixes');
   };
 
-  function surname() {
-    var selector = Math.random();
-    if (selector < 0.4) return _data('EnglishSurnames');
-    return maleName();
-  };
+  var surname = new Selector([
+    [8,function() {return _data('EnglishSurnames')}],
+    [8,maleName],
+    function() {return _data('EnglishSurnames')+'-'+_data('EnglishSurnames');},
+    function() {return _data('EnglishSurnames')+'-'+maleName();},
+    function() {return maleName()+'-'+_data('EnglishSurnames');},
+    function() {return maleName()+'-'+maleName();}
+  ]);
 
   function maleFullName() {
     return maleName()+" "+surname();
