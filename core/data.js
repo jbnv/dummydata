@@ -303,14 +303,22 @@ function _singular() { return false; }
 function _plural() { return true; }
 function _singularOrPlural(fractionPlural) { return Math.random() < fractionPlural; }
 
+function rand() {
+  var args = Array.from(arguments);
+  return function() {
+    return args[Math.floor(args.length*Math.random())];
+  }
+}
 
 function toTitleCase(str)
 {
+    if (!str) return null;
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
 function toInitialCase(str)
 {
+    if (!str) return null;
     return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
 }
 
