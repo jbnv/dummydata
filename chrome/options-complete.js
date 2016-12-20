@@ -2077,12 +2077,12 @@ return Q;
 });
 
 // Parse a selector object and provide methods to access it.
-function Selector(content) {
+function Selector() {
   var _content = [];
   var _sum = 0;
 
-  if (content.constructor === Array) {
-    content.forEach(function(item) {
+  function _fill(array) {
+    array.forEach(function(item) {
       if (item.constructor === Array) {
         _content.push(item);
         _sum += item[0];
@@ -2092,6 +2092,9 @@ function Selector(content) {
       }
     });
   }
+
+  // For backwards compatibility.
+  _fill(arguments[0].constructor === Array ? arguments[0] : Array.from(arguments));
 
   // call with (fn) or (weight,fn)
   this.add = function(p1,p2) {
@@ -2524,13 +2527,6 @@ function _singular() { return false; }
 function _plural() { return true; }
 function _singularOrPlural(fractionPlural) { return Math.random() < fractionPlural; }
 
-function rand() {
-  var args = Array.from(arguments);
-  return function() {
-    return args[Math.floor(args.length*Math.random())];
-  }
-}
-
 function toTitleCase(str)
 {
     if (!str) return null;
@@ -2957,19 +2953,19 @@ var Spanish = function(dd) {
     return appendSuffix(_data('SpanishOrdinalNumbers'),nameSuffix());
   }
 
-  var firstConsonant = rand(
+  var firstConsonant = new Selector(
     "","b","br","bl","c","ch","d","f","fl","fr","g","h","j","l",
     "m","n","p","pr","qu","r","s","t","v"
   );
 
-  var firstVowel = rand("a","e","i","o","u","ue","ie");
+  var firstVowel = new Selector("a","e","i","o","u","ue","ie");
 
-  var secondConsonant = rand(
+  var secondConsonant = new Selector(
     "","b","br","bl","c","ch","d","f","fl","fr","g","h","j","l","m",
     "n","nc","nch","ng","p","pr","qu","r","s","t","v"
   );
 
-  var secondVowel = rand("","el","i","or");
+  var secondVowel = new Selector("","el","i","or");
 
   function generatedNameStem() {
     var result = "".concat( firstConsonant(),firstVowel(),secondConsonant(),secondVowel() );

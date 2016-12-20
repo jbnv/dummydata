@@ -1,10 +1,10 @@
 // Parse a selector object and provide methods to access it.
-function Selector(content) {
+function Selector() {
   var _content = [];
   var _sum = 0;
 
-  if (content.constructor === Array) {
-    content.forEach(function(item) {
+  function _fill(array) {
+    array.forEach(function(item) {
       if (item.constructor === Array) {
         _content.push(item);
         _sum += item[0];
@@ -14,6 +14,9 @@ function Selector(content) {
       }
     });
   }
+
+  // For backwards compatibility.
+  _fill(arguments[0].constructor === Array ? arguments[0] : Array.from(arguments));
 
   // call with (fn) or (weight,fn)
   this.add = function(p1,p2) {

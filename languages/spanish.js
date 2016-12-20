@@ -36,19 +36,19 @@ var Spanish = function(dd) {
     return appendSuffix(_data('SpanishOrdinalNumbers'),nameSuffix());
   }
 
-  var firstConsonant = rand(
+  var firstConsonant = new Selector(
     "","b","br","bl","c","ch","d","f","fl","fr","g","h","j","l",
     "m","n","p","pr","qu","r","s","t","v"
   );
 
-  var firstVowel = rand("a","e","i","o","u","ue","ie");
+  var firstVowel = new Selector("a","e","i","o","u","ue","ie");
 
-  var secondConsonant = rand(
+  var secondConsonant = new Selector(
     "","b","br","bl","c","ch","d","f","fl","fr","g","h","j","l","m",
     "n","nc","nch","ng","p","pr","qu","r","s","t","v"
   );
 
-  var secondVowel = rand("","el","i","or");
+  var secondVowel = new Selector("","el","i","or");
 
   function generatedNameStem() {
     var result = "".concat( firstConsonant(),firstVowel(),secondConsonant(),secondVowel() );
