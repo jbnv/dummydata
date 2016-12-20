@@ -2962,18 +2962,18 @@ var Spanish = function(dd) {
     "m","n","p","pr","qu","r","s","t","v"
   );
 
-  var firstVowel = rand("a","e","i","o","u");
+  var firstVowel = rand("a","e","i","o","u","ue","ie");
 
   var secondConsonant = rand(
     "","b","br","bl","c","ch","d","f","fl","fr","g","h","j","l","m",
     "n","nc","nch","ng","p","pr","qu","r","s","t","v"
   );
 
-  var secondVowel = rand("","el","i");
+  var secondVowel = rand("","el","i","or");
 
   function generatedNameStem() {
     var result = "".concat( firstConsonant(),firstVowel(),secondConsonant(),secondVowel() );
-    return result;
+    return appendSuffix(result,nameSuffix());
   }
 
   var maleNameSelector = new Selector([
